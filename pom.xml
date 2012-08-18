@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+                             http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+	
+  <groupId>com.dbato</groupId>
+	<artifactId>dbato-parent</artifactId>
+  <version>0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>Main project with al dbato artifacts and test</name>
+ 
+  <modules>
+    <module>dbato-api</module>
+    <module>dbato-web</module>
+  </modules>
+
+  <properties>
+    <gae.home>C:\igz\dev\sdks\appengine-java-sdk-1.7.0</gae.home>
+  </properties>
+
+  <build>
+    <pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.6</source>
+          <target>1.6</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>net.kindleit</groupId>
+        <artifactId>maven-gae-plugin</artifactId>
+        <version>0.9.2</version>
+      </plugin>
+    </plugins>
+    </pluginManagement>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <pluginRepositories>
+    <pluginRepository>
+      <id>igzcode-plugins-snapshots</id>
+      <name>Repositorio de IGZcode</name>
+      <url>http://nexus.igzcode.com/content/repositories/snapshots/</url>
+    </pluginRepository>
+    <pluginRepository>
+      <id>igzcode-plugins-releases</id>
+      <name>Repositorio de IGZcode</name>
+      <url>http://nexus.igzcode.com/content/repositories/releases/</url>
+    </pluginRepository>
+  </pluginRepositories>
+  <repositories>
+    <repository>
+      <id>igzcode-releases</id>
+      <name>Repositorio de IGZcode</name>
+      <url>http://nexus.igzcode.com/content/repositories/releases/</url>
+    </repository>
+    <repository>
+      <id>igzcode-snapshots</id>
+      <name>Repositorio de IGZcode</name>
+      <url>http://nexus.igzcode.com/content/repositories/snapshots/</url>
+    </repository>
+  </repositories>
+</project>
