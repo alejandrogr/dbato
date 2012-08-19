@@ -30,6 +30,11 @@ iris.lang.Load("es-ES", {
 var dbato = new function () {
 	
 	var _MainContainer = null;
+	var _TagList = [];
+	
+	this.EVENTS = {
+		"TAG_UPDATED" : "TAG_UPDATED"
+	};
 	
 	this.Resource = function( p_resource ){
 		return iris.global.Data("appPath") + "/" + p_resource;
@@ -46,6 +51,20 @@ var dbato = new function () {
 		 SERVICE_KO : "service_ko"
 		,NOTIFICATION_MESSAGE : "notification_message"
 	};
+	
+	this.GetAllTags = function(){
+		if ( _TagList.length == 0 ){
+			dbato.service.Tag.GetAll(function( p_json ){
+				var f,F = p_json.length;
+				var tagList = [];
+				for( f=0; f<F; f++){
+					tagList[f] = p_json[f].text;
+				}
+				iris.event.Notify( dbato.EVENTS.TAG_UPDATED, {"tagList" : tagList} );
+			});
+		}
+		return _TagList;
+	}
 	
 	this.service = new function () {
 		
@@ -114,6 +133,7 @@ $(document).ready(
 		iris.screen.Add( dbato.MainContainer(), "#discussion", dbato.Resource("screen/discussion.js") );
 		iris.screen.Add( dbato.MainContainer(), "#discussion#create", dbato.Resource("screen/discussion_create.js") );
 		iris.screen.Add( dbato.MainContainer(), "#discussion#list", dbato.Resource("screen/discussion_list.js") );
+		iris.screen.Add( dbato.MainContainer(), "#discussion#view", dbato.Resource("screen/discussion_view.js") );
 		iris.screen.Add( $("[data-id='footer']"), "#footer", dbato.Resource("screen/footer.js"), true );
 		
 		iris.GotoUrlHash("#home");

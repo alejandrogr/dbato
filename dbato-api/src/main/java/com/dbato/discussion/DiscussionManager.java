@@ -1,4 +1,4 @@
-package com.dbato.example;
+package com.dbato.discussion;
 
 import java.util.List;
 

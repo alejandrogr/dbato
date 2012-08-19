@@ -13,8 +13,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 
-import com.dbato.example.DiscussionDto;
-import com.dbato.example.DiscussionManager;
+import com.dbato.discussion.DiscussionDto;
+import com.dbato.discussion.DiscussionManager;
+import com.dbato.tag.TagManager;
 import com.google.gson.Gson;
 
 @Path("/discussion")
@@ -22,25 +23,25 @@ public class DiscussionService {
 	
 	 @GET
 	 @Produces("application/json;charset=UTF-8")
-	 public String GetAll() throws Exception {
+	 public Response GetAll() throws Exception {
 		 Gson response = new Gson();
 		 
 		 DiscussionManager discussionM = new DiscussionManager();
 		 List<DiscussionDto> discussionL = discussionM.FindAll();
 		 
-		 return response.toJson(discussionL);
+		 return Response.ok().entity(response.toJson(discussionL)).build();
 	 }
 	
 	 @GET
 	 @Path("/{discussionId}")
 	 @Produces("application/json;charset=UTF-8")
-	 public String GetDiscussion( @PathParam("discussionId") Long p_discussionId ) throws Exception {
+	 public Response GetDiscussion( @PathParam("discussionId") Long p_discussionId ) throws Exception {
 		 Gson response = new Gson();
 		 
 		 DiscussionManager discussionM = new DiscussionManager();
 		 DiscussionDto discussion = discussionM.Get(p_discussionId);
 		 
-		 return response.toJson(discussion);
+		 return Response.ok().entity(response.toJson(discussion)).build();
 	 }
 	 
 	 @POST
@@ -48,14 +49,25 @@ public class DiscussionService {
 	 public Response Create(
 			 @FormParam("t") String p_title
 			,@FormParam("c") String p_text
+			,@FormParam("ta") List<String> p_tags
 			,@Context HttpServletRequest p_request) throws Exception {
 		 
 		 Gson response = new Gson();
 		 DiscussionManager discussionM = new DiscussionManager();
 		 
+		 System.out.println("CREATE");
+		 System.out.println( p_tags.size() );
+		 System.out.println( p_tags );
+		 
+		 TagManager tagM = new TagManager();
+		 for( int i = 0; i < p_tags.size(); i ++){
+			 tagM.AddUpdateTag( p_tags.get(i) );
+		 }
+		 
 		 DiscussionDto discussion = new DiscussionDto();
-		 discussion.SetText( p_text );
+		 discussion.SetText( p_title );
 		 discussion.SetTitle( p_text );
+		 discussion.SetTags( p_tags );
 		 discussionM.Save( discussion );
 		 
 		 long sheetId = discussion.GetId();

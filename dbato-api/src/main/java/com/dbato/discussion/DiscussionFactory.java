@@ -1,4 +1,4 @@
-package com.dbato.example;
+package com.dbato.discussion;
 
 import com.igzcode.java.gae.pattern.AbstractFactory;
 import com.googlecode.objectify.ObjectifyService;

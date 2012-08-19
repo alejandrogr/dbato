@@ -1,22 +1,36 @@
 iris.Screen(
 	function (self) {
 	
+		var 
+			_TagSelector
+			,_$Title
+			,_$Text
+		;
 		
 		self.Create = function () {
 			self.Template(dbato.Resource("screen/discussion_create.html"));
 
 			iris.Include(dbato.Resource("service/discussion.js"));
 			self.$Get("create").on("click", _CreateDiscussion);
+			
+			_TagSelector = self.InstanceUI("tag_selector", dbato.Resource("ui/tag_selector.js"));
+			
+			_$Title = self.$Get("title");
+			_$Text = self.$Get("desc");
+			
+			_TagSelector.Inflate( dbato.GetAllTags() );
 		};
-		
 
 		function _CreateDiscussion( p_event ){
 			p_event.preventDefault();
 			dbato.service.Discussion.Create(
-				  self.$Get("title").val()
-				, self.$Get("desc").val()
+			      _$Title.val()
+				, _$Text.val()
+				, _TagSelector.Values()
 				, function( p_json ){
-					  iris.D( p_json );
+					  _TagSelector.Clean();
+					  _$Title.val("");
+					  _$Text.html("");
 					  iris.Goto("#discussion#list");
 				}
 			);
