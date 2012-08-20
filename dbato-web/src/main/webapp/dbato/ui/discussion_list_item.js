@@ -20,7 +20,7 @@ iris.UI(
 		
 		self.Inflate = function( p_data ){
 			_$Id.html( p_data["discussionId"] );
-			_$Title.html( p_data["text"] );
+			_$Title.html( p_data["title"] );
 			_$.data("id", p_data["discussionId"]);
 			_AddTags( p_data );
 		};

@@ -18,6 +18,8 @@ iris.Screen(
 			_$Title = self.$Get("title");
 			_$Text = self.$Get("desc");
 			
+			_$Text.wysihtml5();
+			
 			_TagSelector.Inflate( dbato.GetAllTags() );
 		};
 

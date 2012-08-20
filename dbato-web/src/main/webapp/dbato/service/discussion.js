@@ -29,7 +29,7 @@ dbato.service.Discussion = new function () {
 		
 		dbato.service.Post(
 			"discussion"
-			,"?t=" + p_title + "&c=" + p_desc + ta
+			,"t=" + p_title + "&c=" + p_desc + ta
 			,function ( p_json ) {
 				f_success( p_json  );
 			}
