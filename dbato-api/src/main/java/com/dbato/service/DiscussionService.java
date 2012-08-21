@@ -62,10 +62,6 @@ public class DiscussionService {
 		Gson response = new Gson();
 		DiscussionManager discussionM = new DiscussionManager();
 
-		System.out.println("CREATE");
-		System.out.println(p_tags.size());
-		System.out.println(p_tags);
-
 		TagManager tagM = new TagManager();
 		for (int i = 0; i < p_tags.size(); i++) {
 			tagM.AddUpdateTag(p_tags.get(i));
@@ -91,7 +87,7 @@ public class DiscussionService {
 			, @FormParam("dk") Long p_discussionKey
 			, @FormParam("rt") ReplyType p_replyType
 			, @Context HttpServletRequest p_request) throws Exception {
-
+		
 		Gson response = new Gson();
 		ReplyManager replyM = new ReplyManager();
 
@@ -104,6 +100,7 @@ public class DiscussionService {
 		long replyId = reply.GetId();
 
 		URI location = new URI("/reply/" + replyId);
+		
 		return Response.created(location).entity(response.toJson(reply)).build();
 	}
 

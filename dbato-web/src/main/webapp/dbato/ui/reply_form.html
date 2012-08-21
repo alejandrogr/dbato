@@ -1,0 +1,28 @@
+<div>
+	<h3>Post a reply</h3>
+	<form class="form-horizontal">
+		<fieldset>
+			<div class="control-group">
+				<label class="control-label" for="text">Text</label>
+				<div class="controls">
+					<textarea class="input-xlarge" id="text" data-id="text" rows="3"
+						style="width: 530px; height: 100px"></textarea>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="reply">Reply Type</label>
+				<div class="controls">
+					<select id="reply" data-id="reply_type">
+						<option>PRO</option>
+						<option>AGAINST</option>
+						<option>NEUTRAL</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-actions">
+				<button data-id="create" class="btn btn-primary">Reply</button>
+				<button class="btn">Clear</button>
+			</div>
+		</fieldset>
+	</form>
+</div>

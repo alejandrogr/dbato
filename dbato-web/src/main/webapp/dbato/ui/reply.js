@@ -1,43 +1,26 @@
 iris.UI(
-	function (self) {
-		
+
+	function(self) {
+
 		var
-			 _$Text
-			,_$ReplyType
-			,_DiscussionId
+			//TEMPLATE
+			_$Text
+			,_$
+			//VARS
 		;
 		
-		self.Create = function () {
-			iris.Include(dbato.Resource("service/reply.js"));
-			self.Template(dbato.Resource("ui/reply.html"));
-			
+		self.Create = function() {
+			self.TemplateMode( self.TEMPLATE_APPEND);  
+			self.Template( dbato.Resource("ui/reply.html") );
+			_$ = self.$Get();
 			_$Text = self.$Get("text");
-			_$ReplyType = self.$Get("reply_type");
-			self.$Get("create").on("click", _CreateReply);
-			
-			_$Text.wysihtml5();
-			
 		};
 		
-		function _CreateReply( p_event ){
-			p_event.preventDefault();
-			dbato.service.Reply.Create(
-				  _$Text.val()
-				, _DiscussionId 
-				, _$ReplyType.val()
-				, function( p_json ){
-					  iris.D( p_json );
-				}
-			);
+		function _Inflate( p_reply ){
+			_$Text.html( p_reply.text );
+			_$.addClass( p_reply.replyType.toLowerCase() );
 		}
 		
-		function _SetDiscussionKey( p_id ){
-			_DiscussionId  = p_id;
-		}
-		
-		
-		
-		self.SetDiscussionKey = _SetDiscussionKey;
-		
+		self.Inflate = _Inflate;
 	}
 );

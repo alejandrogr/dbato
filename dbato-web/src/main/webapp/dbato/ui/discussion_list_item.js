@@ -33,7 +33,14 @@ iris.UI(
 			var f,F=p_data.tags.length;
 			for(f=0;f<F;f++){
 				var tag = p_data.tags[f];
-				_$Tags.append('<span class="label label-success">'+tag+'</span>');
+				self.InstanceUI( 
+					  _$Tags
+					, dbato.Resource("ui/tag.js")
+					, {
+						  "label" : tag
+						  ,"canRemove" : false
+					} 
+				);
 			}
 			
 		}

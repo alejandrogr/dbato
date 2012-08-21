@@ -6,80 +6,16 @@ BODY {
 	padding-top: 80px;
 }
 
-.notification {
-	padding: 0 10px;
-	margin: 5px auto;
-	background-color: #F9EDBE;
-	border: 1px solid #F0C36D;
-	border-radius: 2px;
-	-webkit-border-radius: 2px;
-	-moz-border-radius: 2px;
-	-moz-box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-	-webkit-box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-	box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-	font-size: 80%;
-	font-weight: bold;
-	text-align: center;
-	position: relative;
-	width: 600px;
+/*BOOTSTRAP TWEAKS*/
+SPAN.label {
+	padding: 2px 4px;
+	margin-left: 4px;
 }
 
-.btn {
-	display: inline-block;
-	border: 1px solid #999;
-	background: #f1f1f1;
-	border-radius: 3px;
-	padding: 4px 6px;
+DIV.well.pro {
+	background-color: #99FF99;
 }
 
-.btnLabel {
-	font-size: 0.8em;
-	font-weight: bold;
-	color: #000;
-	white-space: nowrap;
-}
-
-.ico {
-	display: inline-block;
-	background-image: url(../pix/icons.png);
-	background-repeat: no-repeat;
-	width: 16px;
-	height: 16px;
-	vertical-align: middle;	
-}
-
-.icoEdit {
-	background-position: 0 0;
-}
-
-.icoSearch {
-	background-position: -16px 0px;
-}
-
-.icoSave {
-	background-position: -32px 0px;
-}
-
-.icoAdd {
-	background-position: -48px 0px;
-}
-
-.icoDelete {
-	background-position: -64px 0px;
-}
-
-.icoCancel {
-	background-position: -80px 0px;
-}
-
-.icoWarning {
-	background-position: -96px 0px;
-}
-
-.icoOK {
-	background-position: -112px 0px;
-}
-
-.icoList {
-	background-position: -128px 0px;
+DIV.well.against {
+	background-color: #FFCCCC;
 }

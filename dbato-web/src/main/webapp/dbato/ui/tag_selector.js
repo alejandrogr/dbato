@@ -31,9 +31,23 @@ iris.UI(
 			
 			_Tags[_Tags.length] = _$TagText.val();
 			
-			_$TagList.append('<span class="label label-success">'+_$TagText.val()+'</span>');
+			self.InstanceUI( 
+				  _$TagList
+				, dbato.Resource("ui/tag.js")
+				, {
+					  "onTagRemove" : _OnTagRemove
+					  ,"label" : _$TagText.val()
+				} 
+			);
 			
 			_$TagText.val("");
+		}
+		
+		function _OnTagRemove( p_tagText ){
+			var idx = _Tags.indexOf( p_tagText );
+			if ( idx != -1 ){
+				_Tags.splice( idx, 1 );
+			}
 		}
 		
 		function _Values(){
