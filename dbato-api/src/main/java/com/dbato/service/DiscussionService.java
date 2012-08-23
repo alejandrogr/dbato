@@ -39,7 +39,8 @@ public class DiscussionService {
 	@GET
 	@Path("/{discussionId}")
 	@Produces("application/json;charset=UTF-8")
-	public Response GetDiscussion(@PathParam("discussionId") Long p_discussionId) throws Exception {
+	public Response GetDiscussion(
+			@PathParam("discussionId") Long p_discussionId ) throws Exception {
 		Gson response = new Gson();
 
 		DiscussionManager discussionM = new DiscussionManager();
@@ -57,7 +58,11 @@ public class DiscussionService {
 
 	@POST
 	@Produces("application/json;charset=UTF-8")
-	public Response Create(@FormParam("t") String p_title, @FormParam("c") String p_text, @FormParam("ta") List<String> p_tags, @Context HttpServletRequest p_request) throws Exception {
+	public Response Create(
+			  @FormParam("t") String p_title
+			, @FormParam("c") String p_text
+			, @FormParam("ta") List<String> p_tags
+			, @Context HttpServletRequest p_request) throws Exception {
 
 		Gson response = new Gson();
 		DiscussionManager discussionM = new DiscussionManager();
@@ -94,7 +99,7 @@ public class DiscussionService {
 		ReplyDto reply = new ReplyDto();
 		reply.SetText( p_text );
 		reply.SetDiscussionKey( p_discussionKey );
-		reply.SetReply( p_replyType );
+		reply.SetReplyType( p_replyType );
 		replyM.Save(reply);
 
 		long replyId = reply.GetId();

@@ -6,6 +6,9 @@ iris.Screen(
 			,_$Text
 			,_Reply
 			,_$Replies
+			,_$BestPro
+			,_$BestNeu
+			,_$BestAga
 			,_DiscussionId
 		;
 		
@@ -22,6 +25,10 @@ iris.Screen(
 			_$Replies = self.$Get("replies");
 			_$Title = self.$Get("title");
 			_$text = self.$Get("text");
+			_$BestPro = self.$Get("best_pro");
+			_$BestNeu = self.$Get("best_neutral");
+			_$BestAga = self.$Get("best_aga");
+			
 		};
 		
 		self.Awake = function( p_params ){
@@ -40,10 +47,32 @@ iris.Screen(
 			_$text.html( p_json.discussion.text );
 			
 			_$Replies.html("");
+			_$BestPro.html("");
+			_$BestNeu.html("");
+			_$BestAga.html("");
+			
+			var bestPro, bestAgainst, bestNeutral = false;
+			var container;
 			
 			var f,F = p_json.replies.length;
 			for(f=0;f<F;f++){
-				var reply = self.InstanceUI( _$Replies, dbato.Resource("ui/reply.js"));
+				
+				container = _$Replies;
+				
+				if( p_json.replies[f].replyType == "PRO" && !bestPro ){
+					container = _$BestPro;
+					bestPro = true;
+				}
+				if( p_json.replies[f].replyType == "AGAINST" && !bestAgainst ){
+					container = _$BestAga;
+					bestAgainst = true;
+				}
+				if( p_json.replies[f].replyType == "NEUTRAL" && !bestNeutral ){
+					container = _$BestNeu;
+					bestNeutral = true;
+				}
+				
+				var reply = self.InstanceUI( container, dbato.Resource("ui/reply.js"));
 				reply.Inflate( p_json.replies[f] );
 			}
 		}
