@@ -14,6 +14,7 @@ iris.Screen(
 		
 		self.Awake = function(){
 			_ReloadList();
+			iris.event.Notify( dbato.EVENTS.SHOW_SIDEBAR );
 		}
 		
 		function _ReloadList(){

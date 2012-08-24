@@ -1,8 +1,8 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="es">
 <head>
 
-	<title>Aplication Tittle</title>
+	<title>DBATO</title>
 	
 	<meta http-equiv='X-UA-Compatible' content='IE=8'/>
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
@@ -21,10 +21,17 @@
 	
 </head>
 <body>
-	<div data-id="header" />
+	<div data-id="header"></div>
 	<div class="container">
-		<div data-id="main" />
+		<div class="row">
+			<div class="span2" data-id="sidebar">
+				<!--Sidebar content-->
+			</div>
+			<div class="span10" data-id="main">
+				<!--Body content-->
+			</div>
+		</div>
 	</div>
-	<div data-id="footer" />
+	<div data-id="footer"></div>
 </body>
 </html>

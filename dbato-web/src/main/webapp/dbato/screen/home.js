@@ -5,6 +5,8 @@ iris.Screen(
 		self.Create = function () {
 			self.Template(dbato.Resource("screen/home.html"));
 			
+			
+			
 		};
 		
 	}

@@ -36,6 +36,7 @@ iris.Screen(
 			_DiscussionKey = p_params.id;
 			_Reply.SetDiscussionKey( _DiscussionKey );
 			dbato.service.Discussion.Get( _DiscussionKey, _Inflate );
+			iris.event.Notify( dbato.EVENTS.HIDE_SIDEBAR );
 		}
 		
 		function _BeforeReply(){
