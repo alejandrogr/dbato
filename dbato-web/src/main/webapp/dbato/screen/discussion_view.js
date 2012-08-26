@@ -53,28 +53,29 @@ iris.Screen(
 			_$BestAga.html("");
 			
 			var bestPro, bestAgainst, bestNeutral = false;
-			var container;
+			var container, reply;
 			
 			var f,F = p_json.replies.length;
 			for(f=0;f<F;f++){
 				
 				container = _$Replies;
+				reply = p_json.replies[f].reply;
 				
-				if( p_json.replies[f].replyType == "PRO" && !bestPro ){
+				if( reply.replyType == "PRO" && !bestPro ){
 					container = _$BestPro;
 					bestPro = true;
 				}
-				if( p_json.replies[f].replyType == "AGAINST" && !bestAgainst ){
+				if( reply.replyType == "AGAINST" && !bestAgainst ){
 					container = _$BestAga;
 					bestAgainst = true;
 				}
-				if( p_json.replies[f].replyType == "NEUTRAL" && !bestNeutral ){
+				if( reply.replyType == "NEUTRAL" && !bestNeutral ){
 					container = _$BestNeu;
 					bestNeutral = true;
 				}
 				
-				var reply = self.InstanceUI( container, dbato.Resource("ui/reply.js"));
-				reply.Inflate( p_json.replies[f] );
+				var replyUI = self.InstanceUI( container, dbato.Resource("ui/reply.js"));
+				replyUI.Inflate( p_json.replies[f] );
 			}
 		}
 		

@@ -15,6 +15,7 @@ import javax.ws.rs.core.Response;
 
 import com.dbato.commons.Constant.ReplyType;
 import com.dbato.commons.DiscussionVO;
+import com.dbato.commons.ReplyVO;
 import com.dbato.discussion.DiscussionDto;
 import com.dbato.discussion.DiscussionManager;
 import com.dbato.reply.ReplyDto;
@@ -47,7 +48,7 @@ public class DiscussionService {
 		DiscussionDto discussion = discussionM.Get(p_discussionId);
 		
 		ReplyManager replyM = new ReplyManager();
-		List<ReplyDto> replyL = replyM.FindByDiscussion(discussion.GetId());
+		List<ReplyVO> replyL = replyM.FindByDiscussion(discussion.GetId());
 		
 		DiscussionVO discusionVO = new DiscussionVO();
 		discusionVO.SetDiscussion( discussion );

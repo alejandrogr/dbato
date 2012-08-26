@@ -20,11 +20,11 @@ public class ReplyDto extends AbstractEntity {
 	
 	private ReplyType replyType;
 	
-	private Integer relevance;
-	
 	private Integer votes;
 	
 	private Integer totalVotes;
+	
+	private Integer numComments;
 	
 	private Date creationDate;
 	private Date updateDate;
@@ -42,6 +42,7 @@ public class ReplyDto extends AbstractEntity {
 
 		votes = 0;
 		totalVotes = 0;
+		numComments = 0;
 	}
 	
 	public Long GetId() {
@@ -52,12 +53,12 @@ public class ReplyDto extends AbstractEntity {
 		this.replyId = p_id;
 	}
 	
-	public void SetRelevance( Integer p_relevance ){
-		relevance = p_relevance;
+	public void SetNumComments( Integer p_numComments ){
+		numComments = p_numComments;
 	}
 	
-	public Integer GetRelevance(){
-		return relevance;
+	public Integer GetNumComments(){
+		return numComments;
 	}
 	
 	public void SetVotes( Integer p_votes ){

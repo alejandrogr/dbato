@@ -1,7 +1,11 @@
 package com.dbato.reply;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.dbato.comments.CommentDto;
+import com.dbato.comments.CommentManager;
+import com.dbato.commons.ReplyVO;
 import com.igzcode.java.util.collection.NameValueArray;
 
 public class ReplyManager extends ReplyFactory {
@@ -14,10 +18,32 @@ public class ReplyManager extends ReplyFactory {
 		_Save( p_reply );
 	}
 
-	public List<ReplyDto> FindByDiscussion ( Long p_discussionId ) {
+	public List<ReplyVO> FindByDiscussion ( Long p_discussionId ) {
+		
 		NameValueArray filters = new NameValueArray();
 		filters.Add("discussionKey =", p_discussionId);
-		return _FindByProperties(filters, "-votes");
+		List<ReplyDto> replies = _FindByProperties(filters, "-votes");
+		
+		ReplyDto reply;
+		List<CommentDto> comments;
+		List<ReplyVO> repliesVo = new ArrayList<ReplyVO>();
+		ReplyVO replyVo;
+		CommentManager commentM = new CommentManager();
+		for(int i=0;i<replies.size();i++){
+			
+			reply = replies.get(i);
+			comments = new ArrayList<CommentDto>();
+			replyVo = new ReplyVO();
+			
+			if( reply.GetNumComments() > 0 ){
+				comments = commentM.FindByReply( reply.GetId() );
+			}
+			replyVo.SetReply( reply );
+			replyVo.SetComments( comments );
+			repliesVo.add( replyVo );
+		}
+		
+		return repliesVo;
 	}
 	
 	public Integer Vote( Integer p_vote, Long p_replyId ){
