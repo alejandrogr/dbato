@@ -12,8 +12,7 @@ In Dbato users can vote for importance and relevance of the replies and them are
   
 There are to kinds of votes in Dbato:
 * Regular votes: when users who does not participate on a discussion vote a reply, it count as a regular vote.
-* Relevant vote: when a user who participate in the discussion vote a reply it count as a relevant vote.
-* Relevant votes count more than regular votes.
+* Relevant vote: when a user who participate in the discussion vote a reply it count as a relevant vote. Relevant votes count more than regular votes.
   
 To post in Dbato you need to be logged in with a Google account. However you can post as a hidden user to protect your email.
   
