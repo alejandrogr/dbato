@@ -24,13 +24,13 @@ To post in Dbato you need to be logged in with a Google account. However you can
 * List discussions
 * Vote replies
 * View discussions with ordered replies
+* Comments on replies
 
 ## TODO (until beta release)
 * Prevent users to post or vote when they are not logged in
 * Disallow multiple votes on a same reply by same user
 * Difference between regular and relevant votes
 * App redesign
-* Comments
 * Discussion searches
 * Tag filters
 * List My Discussions or discussions which have any of my replies
