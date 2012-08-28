@@ -41,9 +41,7 @@ iris.UI(
 			
 			_ReplyId = reply.replyId;
 			_$Text.html( reply.text );
-			_$NumComments.html( comments.length );
-			_$.addClass( reply.replyType.toLowerCase() );
-			
+			_$NumComments.html( comments.length );	
 		}
 		
 		function _InflateEvents(){
@@ -62,18 +60,34 @@ iris.UI(
 		
 		function _ShowCommentBox(){
 			if ( !_CommentUI ){
-				_CommentUI = self.InstanceUI(_$CommentForm, dbato.Resource("ui/comment_form.js"));
+				_CommentUI = self.InstanceUI(_$CommentForm, dbato.Resource("ui/comment_form.js"), {"beforeComment" : _ReloadComments });
 				_CommentUI.SetReplyKey( _ReplyId );
-				var f,F = _Comments.length;
-				var commentUi;
-				for(f=0;f<F;f++){
-					commentUi = self.InstanceUI(_$Comments, dbato.Resource("ui/comment.js"));
-					commentUi.Inflate( _Comments[f] );
-				}
+				_InflateComments( _Comments );
 			} else {
 				_$Comments.toggle();
 				_$CommentForm.toggle();
 			}
+		}
+		
+		function _InflateComments( p_comments ){
+			_$Comments.html("");
+			var f,F = p_comments.length;
+			var commentUi;
+			for(f=0;f<F;f++){
+				commentUi = self.InstanceUI(_$Comments, dbato.Resource("ui/comment.js"));
+				commentUi.Inflate( _Comments[f] );
+			}
+		}
+		
+		function _ReloadComments(){
+			dbato.service.Reply.Get( 
+				  _ReplyId
+				, function( p_json ){
+					  _Comments = p_json.comments;
+					  _CommentUI.Clear();
+					  _InflateComments( _Comments );
+				  }
+			);
 		}
 		
 		self.Inflate = _Inflate;

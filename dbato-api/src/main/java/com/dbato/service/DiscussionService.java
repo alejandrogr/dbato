@@ -96,6 +96,12 @@ public class DiscussionService {
 		
 		Gson response = new Gson();
 		ReplyManager replyM = new ReplyManager();
+		DiscussionManager discussionM = new DiscussionManager();
+		DiscussionDto discussion = new DiscussionDto();
+		
+		discussion = discussionM.Get( p_discussionKey );
+		discussion.SetNumReplies( discussion.GetNumReplies() + 1 );
+		discussionM.Save( discussion );
 
 		ReplyDto reply = new ReplyDto();
 		reply.SetText( p_text );

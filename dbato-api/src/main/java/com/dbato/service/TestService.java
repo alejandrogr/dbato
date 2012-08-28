@@ -96,6 +96,10 @@ public class TestService {
 				}
 				
 			}
+			
+			discussionDto.SetNumReplies( numReplies );
+			discussionM.Save( discussionDto );
+			
 		}
 		
 		return Response.ok().entity("{\"OK\":\"OK\"}").build();

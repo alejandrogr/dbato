@@ -24,6 +24,8 @@ public class DiscussionDto extends AbstractEntity {
 	
 	private List<String> tags = new ArrayList<String>();
 	
+	private Integer numReplies;
+	
 	private Date creationDate;
 	private Date updateDate;
 	
@@ -37,6 +39,8 @@ public class DiscussionDto extends AbstractEntity {
 	
 	public DiscussionDto() {
 		super();
+		
+		numReplies = 0;
 	}
 	
 	public void SetTags( List<String> p_tags){
@@ -53,6 +57,14 @@ public class DiscussionDto extends AbstractEntity {
 
 	public void SetId(Long p_id) {
 		this.discussionId = p_id;
+	}
+
+	public Integer GetNumReplies() {
+		return numReplies;
+	}
+
+	public void SetNumReplies(Integer p_num) {
+		this.numReplies = p_num;
 	}
 
 	public void SetText( String p_value ) {

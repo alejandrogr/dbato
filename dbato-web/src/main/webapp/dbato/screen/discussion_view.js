@@ -25,14 +25,9 @@ iris.Screen(
 			_$Replies = self.$Get("replies");
 			_$Title = self.$Get("title");
 			_$text = self.$Get("text");
-			_$BestPro = self.$Get("best_pro");
-			_$BestNeu = self.$Get("best_neutral");
-			_$BestAga = self.$Get("best_aga");
-			
 		};
 		
 		self.Awake = function( p_params ){
-			iris.D("AWAKE", p_params);
 			_DiscussionKey = p_params.id;
 			_Reply.SetDiscussionKey( _DiscussionKey );
 			dbato.service.Discussion.Get( _DiscussionKey, _Inflate );
@@ -48,11 +43,7 @@ iris.Screen(
 			_$text.html( p_json.discussion.text );
 			
 			_$Replies.html("");
-			_$BestPro.html("");
-			_$BestNeu.html("");
-			_$BestAga.html("");
 			
-			var bestPro, bestAgainst, bestNeutral = false;
 			var container, reply;
 			
 			var f,F = p_json.replies.length;
@@ -60,19 +51,6 @@ iris.Screen(
 				
 				container = _$Replies;
 				reply = p_json.replies[f].reply;
-				
-				if( reply.replyType == "PRO" && !bestPro ){
-					container = _$BestPro;
-					bestPro = true;
-				}
-				if( reply.replyType == "AGAINST" && !bestAgainst ){
-					container = _$BestAga;
-					bestAgainst = true;
-				}
-				if( reply.replyType == "NEUTRAL" && !bestNeutral ){
-					container = _$BestNeu;
-					bestNeutral = true;
-				}
 				
 				var replyUI = self.InstanceUI( container, dbato.Resource("ui/reply.js"));
 				replyUI.Inflate( p_json.replies[f] );

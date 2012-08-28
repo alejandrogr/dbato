@@ -7,7 +7,7 @@ iris.UI(
 		;
 		
 		self.Settings({
-			"beforeReply" : null
+			"beforeComment" : null
 		});
 		
 		self.Create = function () {
@@ -28,11 +28,15 @@ iris.UI(
 				, _ReplyId
 				, function( p_json ){
 					  iris.D( p_json );
-					  /*if ( self.Setting("beforeReply") != null ){
-						  self.Setting("beforeReply")();
-					  }*/
+					  if ( self.Setting("beforeComment") != null ){
+						  self.Setting("beforeComment")();
+					  }
 				}
 			);
+		}
+		
+		function _Clear(){
+			_$Text.data("wysihtml5").editor.clear();
 		}
 		
 		function _SetReplyKey( p_id ){
@@ -40,5 +44,6 @@ iris.UI(
 		}
 		
 		self.SetReplyKey = _SetReplyKey;
+		self.Clear = _Clear;
 	}
 );

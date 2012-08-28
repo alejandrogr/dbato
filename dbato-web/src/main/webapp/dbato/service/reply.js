@@ -14,6 +14,17 @@ dbato.service.Reply = new function () {
 		);
 	};
 	
+	this.Get = function( p_replyId,  f_success, f_error ){
+		dbato.service.Get(
+			"reply/" + p_replyId
+			, {}
+			,function ( p_json ) {
+				f_success( p_json  );
+			}
+			, f_error
+		);
+	}
+	
 	this.Vote = function( p_vote, p_replyId,  f_success, f_error ){
 		dbato.service.Put(
 			"reply/vote"

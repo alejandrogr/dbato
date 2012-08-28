@@ -4,15 +4,18 @@ import java.net.URI;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 
 import com.dbato.comments.CommentDto;
 import com.dbato.comments.CommentManager;
+import com.dbato.commons.ReplyVO;
 import com.dbato.reply.ReplyDto;
 import com.dbato.reply.ReplyManager;
 import com.google.gson.Gson;
@@ -35,6 +38,19 @@ public class ReplyService {
 		ReplyDto reply = replyM.Get( p_replyId );
 		
 		return Response.ok().entity(response.toJson( reply )).build();
+	}
+	
+	@GET
+	@Path("/{replyId}")
+	@Produces("application/json;charset=UTF-8")
+	public Response GetDiscussion(
+			@PathParam("replyId") Long p_replyId ) throws Exception {
+		Gson response = new Gson();
+
+		ReplyManager replyM = new ReplyManager();
+		ReplyVO reply = replyM.GetById(p_replyId); 
+		
+		return Response.ok().entity(response.toJson(reply)).build();
 	}
 	
 	@POST
