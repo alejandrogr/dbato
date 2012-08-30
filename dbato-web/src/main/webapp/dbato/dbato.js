@@ -130,6 +130,13 @@ $(document).ready(
 	function () {
 		dbato.MainContainer($("[data-id='main']"));
 		
+		if( USER.EMAIL != "null" ){
+			dbato.USER = USER;
+			dbato.LOGOUT = USER.LOGOUT;
+		} else {
+			dbato.USER = null;
+		}
+		
 		iris.screen.Add( $("[data-id='header']"), "#header", dbato.Resource("screen/header.js"), true );
 		iris.screen.Add( dbato.MainContainer(), "#home", dbato.Resource("screen/home.js") );
 		iris.screen.Add( dbato.MainContainer(), "#discussion", dbato.Resource("screen/discussion.js") );

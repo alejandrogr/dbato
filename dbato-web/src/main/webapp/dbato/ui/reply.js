@@ -12,11 +12,14 @@ iris.UI(
 			,_$CommentForm
 			,_$NumComments
 			,_$Comments
+			,_$CommentContainer
 			//VARS
 			,_ReplyId
 			,_Comments
+			,_CommentsShown = false
 			//UIs
 			,_CommentUI = null
+			,_LoginUI = null
 		;
 		
 		self.Create = function() {
@@ -31,6 +34,7 @@ iris.UI(
 			_$CommentForm = self.$Get("comment_form");
 			_$NumComments = self.$Get("num_comments");
 			_$Comments = self.$Get("comments");
+			_$CommentContainer = self.$Get("comment_container");
 			
 			_InflateEvents();
 		};
@@ -59,13 +63,17 @@ iris.UI(
 		}
 		
 		function _ShowCommentBox(){
-			if ( !_CommentUI ){
-				_CommentUI = self.InstanceUI(_$CommentForm, dbato.Resource("ui/comment_form.js"), {"beforeComment" : _ReloadComments });
-				_CommentUI.SetReplyKey( _ReplyId );
+			if ( !_CommentsShown ){
+				if( dbato.USER != null ){
+					_CommentUI = self.InstanceUI(_$CommentForm, dbato.Resource("ui/comment_form.js"), {"beforeComment" : _ReloadComments });
+					_CommentUI.SetReplyKey( _ReplyId );
+				} else {
+					_LoginUI = self.InstanceUI(_$CommentForm, dbato.Resource("ui/login.js"));
+				}
+				_CommentsShown = true;
 				_InflateComments( _Comments );
-			} else {
-				_$Comments.toggle();
-				_$CommentForm.toggle();
+			} else {	
+				_$CommentContainer.toggle();
 			}
 		}
 		

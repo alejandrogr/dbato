@@ -54,7 +54,7 @@ public class TestService {
 			discussionDto.SetTags( tagL );
 			discussionM.Save( discussionDto );
 		
-			numReplies = (int) ( Math.random() * 10);
+			numReplies = (int) ( Math.random() * 30);
 			for( int r = 0; r<numReplies; r++){
 
 				totalVotes = (int) ( Math.random() * 10);

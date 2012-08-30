@@ -15,7 +15,8 @@ iris.Screen(
 			,_CurrentReplies
 			,_RepliesToShow
 			,_HiddenReplies
-			,_JustNevagiteRepliesLeft = false;
+			,_JustNevagiteRepliesLeft = false
+			,_LoginUi
 		;
 		
 		self.Create = function () {
@@ -29,19 +30,19 @@ iris.Screen(
 				, {"beforeReply" : _BeforeReply }
 			);
 			
+			_LoginUi = self.InstanceUI("login", dbato.Resource("ui/login.js"));
+			
 			_$Replies = self.$Get("replies");
 			_$Title = self.$Get("title");
 			_$Text = self.$Get("text");
 			_$HiddenRepliesMsg = self.$Get("hidden_replies_msg").hide();
-			_$HiddenRepliesNumber = self.$Get("hidden_replies_num").hide();
+			_$HiddenRepliesNumber = self.$Get("hidden_replies_num");
 			_$ShowMoreReplies = self.$Get("show_more_replies").hide();
 			
-			_RepliesToShow = 5; 
-			_CurrentReplies = 0;
-			_HiddenReplies = 0;
 			
 			_InflateEvents();
 		};
+		
 		
 		function _InflateEvents(){
 			_$HiddenRepliesMsg.on("click", _ShowMoreReplies);
@@ -52,7 +53,19 @@ iris.Screen(
 			_DiscussionKey = p_params.id;
 			_Reply.SetDiscussionKey( _DiscussionKey );
 			dbato.service.Discussion.Get( _DiscussionKey, _Inflate );
-			iris.event.Notify( dbato.EVENTS.HIDE_SIDEBAR );
+
+			_RepliesToShow = 5; 
+			_CurrentReplies = 0;
+			_HiddenReplies = 0;
+			_JustNevagiteRepliesLeft = false;
+			
+			if( dbato.USER != null ){
+				_Reply.Show();
+				_LoginUi.Hide();
+			} else {
+				_Reply.Hide();
+				_LoginUi.Show();
+			}
 		}
 		
 		function _BeforeReply(){
@@ -74,14 +87,15 @@ iris.Screen(
 		function _InflateReplies( p_replies ){
 			var reply;
 			var f,F = _TotalReplies;
-			
-			for(f=_CurrentReplies;f<F;f++){
+			var curRep = _CurrentReplies;
+			for(f=curRep;f<F;f++){
 				reply = p_replies[f].reply;
 				
 				if ( reply.votes < -10 && !_JustNevagiteRepliesLeft){
 					_JustNevagiteRepliesLeft = true;
 					_$HiddenRepliesMsg.show();
 					_$HiddenRepliesNumber.html( _HiddenReplies );
+					_RepliesToShow = _CurrentReplies;
 					break;
 				}
 				
@@ -95,16 +109,17 @@ iris.Screen(
 			
 			_HiddenReplies = _TotalReplies - _CurrentReplies;
 			
-			_$HiddenRepliesMsg.hide();
-			_$ShowMoreReplies.hide();
-			
 			if( _HiddenReplies > 0 ){
 				if( _JustNevagiteRepliesLeft ){
 					_$HiddenRepliesMsg.show();
 					_$HiddenRepliesNumber.html( _HiddenReplies );
+					_$ShowMoreReplies.hide();
 				} else {
 					_$ShowMoreReplies.show();	
 				}
+			} else {
+				_$ShowMoreReplies.hide();
+				_$HiddenRepliesMsg.hide();
 			}
 		}
 		
