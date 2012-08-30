@@ -67,7 +67,7 @@ public class DiscussionService {
 
 		Gson response = new Gson();
 		DiscussionManager discussionM = new DiscussionManager();
-
+				
 		TagManager tagM = new TagManager();
 		for (int i = 0; i < p_tags.size(); i++) {
 			tagM.AddUpdateTag(p_tags.get(i));
@@ -77,6 +77,8 @@ public class DiscussionService {
 		discussion.SetTitle(p_title);
 		discussion.SetText(p_text);
 		discussion.SetTags(p_tags);
+		discussion.SetOwner( (String) p_request.getAttribute("userDesc") );
+		discussion.SetOwnerId( (Long) p_request.getAttribute("userId") );
 		discussionM.Save(discussion);
 
 		long sheetId = discussion.GetId();
@@ -107,6 +109,8 @@ public class DiscussionService {
 		reply.SetText( p_text );
 		reply.SetDiscussionKey( p_discussionKey );
 		reply.SetReplyType( p_replyType );
+		reply.SetOwner( (String) p_request.getAttribute("userDesc")  );
+		reply.SetOwnerId( (Long) p_request.getAttribute("userId") );
 		replyM.Save(reply);
 
 		long replyId = reply.GetId();

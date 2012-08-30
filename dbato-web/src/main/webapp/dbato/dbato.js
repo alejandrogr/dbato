@@ -34,8 +34,6 @@ var dbato = new function () {
 	
 	this.EVENTS = {
 		 "TAG_UPDATED" : "TAG_UPDATED"
-		,"SHOW_SIDEBAR" : "SHOW_SIDEBAR"
-		,"HIDE_SIDEBAR" : "HIDE_SIDEBAR"
 	};
 	
 	this.Resource = function( p_resource ){
@@ -121,7 +119,6 @@ var dbato = new function () {
 		this.Delete = function (p_service, p_params, f_success, f_error){
 			_Call("DELETE", p_service, p_params, f_success, f_error)
 		}
-		
 	}
 }
 
@@ -143,6 +140,7 @@ $(document).ready(
 		iris.screen.Add( dbato.MainContainer(), "#discussion#create", dbato.Resource("screen/discussion_create.js") );
 		iris.screen.Add( dbato.MainContainer(), "#discussion#list", dbato.Resource("screen/discussion_list.js") );
 		iris.screen.Add( dbato.MainContainer(), "#discussion#view", dbato.Resource("screen/discussion_view.js") );
+		iris.screen.Add( dbato.MainContainer(), "#profile", dbato.Resource("screen/profile.js") );
 		iris.screen.Add( $("[data-id='footer']"), "#footer", dbato.Resource("screen/footer.js"), true );
 		iris.screen.Add( $("[data-id='sidebar']"), "#sidebar", dbato.Resource("screen/sidebar.js"), true );
 		

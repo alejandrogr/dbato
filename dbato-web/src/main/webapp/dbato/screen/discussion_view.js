@@ -6,9 +6,7 @@ iris.Screen(
 			,_$Text
 			,_Reply
 			,_$Replies
-			,_$BestPro
-			,_$BestNeu
-			,_$BestAga
+			,_$Meta
 			,_$ShowMoreReplies
 			,_DiscussionId
 			,_TotalReplies
@@ -38,7 +36,7 @@ iris.Screen(
 			_$HiddenRepliesMsg = self.$Get("hidden_replies_msg").hide();
 			_$HiddenRepliesNumber = self.$Get("hidden_replies_num");
 			_$ShowMoreReplies = self.$Get("show_more_replies").hide();
-			
+			_$Meta = self.$Get("meta");
 			
 			_InflateEvents();
 		};
@@ -75,12 +73,13 @@ iris.Screen(
 		function _Inflate( p_json ){
 			_$Title.html( p_json.discussion.title );
 			_$Text.html( p_json.discussion.text );
-			
+			_$Meta.html( "By " + p_json.discussion.owner + " on " + p_json.discussion.updateDate);
 			_$Replies.html("");
 			
 			_TotalReplies = p_json.replies.length;
 			_Replies = p_json.replies;
 			_InflateReplies( _Replies );
+			
 			
 		}
 		
@@ -91,12 +90,15 @@ iris.Screen(
 			for(f=curRep;f<F;f++){
 				reply = p_replies[f].reply;
 				
-				if ( reply.votes < -10 && !_JustNevagiteRepliesLeft){
-					_JustNevagiteRepliesLeft = true;
-					_$HiddenRepliesMsg.show();
-					_$HiddenRepliesNumber.html( _HiddenReplies );
-					_RepliesToShow = _CurrentReplies;
-					break;
+				
+				if( dbato.USER == null || ( dbato.USER != null && dbato.USER.SHOW_HIDDEN_REPLIES == false) ){
+					if ( reply.votes < -10 && !_JustNevagiteRepliesLeft){
+						_JustNevagiteRepliesLeft = true;
+						_$HiddenRepliesMsg.show();
+						_$HiddenRepliesNumber.html( _HiddenReplies );
+						_RepliesToShow = _CurrentReplies;
+						break;
+					}
 				}
 				
 				var replyUI = self.InstanceUI( _$Replies, dbato.Resource("ui/reply.js"));

@@ -16,6 +16,8 @@ import com.dbato.discussion.DiscussionManager;
 import com.dbato.reply.ReplyDto;
 import com.dbato.reply.ReplyManager;
 import com.dbato.tag.TagManager;
+import com.dbato.user.UserDto;
+import com.dbato.user.UserManager;
 
 @Path("/test")
 public class TestService {
@@ -25,9 +27,16 @@ public class TestService {
 	public Response FillDB() throws Exception {
 		
 		DiscussionManager discussionM = new DiscussionManager();
+		UserManager userM = new UserManager();
 		TagManager tagM = new TagManager();
 		ReplyManager replyM = new ReplyManager();
 		CommentManager commentM = new CommentManager();
+		
+		UserDto user = new UserDto();
+		
+		user.SetEmail("alejandrogr@gmail.com");
+		user.SetNick("Ale");
+		userM.Save( user );
 		
 		DiscussionDto discussionDto;
 		ReplyDto replyDto;
@@ -52,6 +61,8 @@ public class TestService {
 			discussionDto.SetTitle("Tittle " + i);
 			discussionDto.SetText("Discussion " + i + " text.");
 			discussionDto.SetTags( tagL );
+			discussionDto.SetOwner( user.GetEmail() );
+			discussionDto.SetOwnerId( user.GetId() );
 			discussionM.Save( discussionDto );
 		
 			numReplies = (int) ( Math.random() * 30);
@@ -75,6 +86,8 @@ public class TestService {
 				replyDto.SetText("Reply text " + r);
 				replyDto.SetTotalVotes( totalVotes );
 				replyDto.SetVotes( votes );
+				replyDto.SetOwner( user.GetEmail() );
+				replyDto.SetOwnerId( user.GetId() );
 				replyM.Save( replyDto );
 				
 				double hasComments = Math.random();

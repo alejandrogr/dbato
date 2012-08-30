@@ -22,6 +22,10 @@ public class DiscussionDto extends AbstractEntity {
 	@Searchable
 	private String text;
 	
+	private String owner;
+
+	private Long ownerId;
+	
 	private List<String> tags = new ArrayList<String>();
 	
 	private Integer numReplies;
@@ -59,6 +63,14 @@ public class DiscussionDto extends AbstractEntity {
 		this.discussionId = p_id;
 	}
 
+	public Long GetOwnerId() {
+		return ownerId;
+	}
+
+	public void SetOwnerId(Long p_id) {
+		this.ownerId = p_id;
+	}
+
 	public Integer GetNumReplies() {
 		return numReplies;
 	}
@@ -81,6 +93,14 @@ public class DiscussionDto extends AbstractEntity {
 	
 	public String GetTitle() {
 		return title;
+	}
+
+	public void SetOwner( String p_owner ) {
+		owner = p_owner;
+	}
+	
+	public String GetOwner() {
+		return owner;
 	}
 
 }

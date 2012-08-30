@@ -19,6 +19,10 @@ public class ReplyDto extends AbstractEntity {
 	private String text;
 	
 	private ReplyType replyType;
+
+	private String owner;
+	
+	private Long ownerId;
 	
 	private Integer votes;
 	
@@ -51,6 +55,14 @@ public class ReplyDto extends AbstractEntity {
 
 	public void SetId(Long p_id) {
 		this.replyId = p_id;
+	}
+
+	public Long GetOwnerId() {
+		return ownerId;
+	}
+
+	public void SetOwnerId(Long p_id) {
+		this.ownerId = p_id;
 	}
 	
 	public void SetNumComments( Integer p_numComments ){
@@ -99,6 +111,14 @@ public class ReplyDto extends AbstractEntity {
 
 	public void SetReplyType(ReplyType p_reply) {
 		this.replyType = p_reply;
+	}
+
+	public void SetOwner( String p_owner ) {
+		owner = p_owner;
+	}
+	
+	public String GetOwner() {
+		return owner;
 	}
 
 }

@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" buffer="500kb"%>
-<%@ page import="com.google.appengine.api.users.User" %>
+<%@ page import="com.dbato.user.UserDto" %>
 <%
-User user = (User) request.getAttribute("user");
+UserDto user = (UserDto) request.getAttribute("user");
 String logout = (String) request.getAttribute("logout");
+
 %>
 <!DOCTYPE HTML>
 <html lang="es">
@@ -21,8 +22,10 @@ String logout = (String) request.getAttribute("logout");
 	
 	<script>
 		var USER = {
-			 EMAIL : '<%=(user!=null)?user.getEmail():null%>'
-			,NICK : '<%=(user!=null)?user.getNickname():null%>'
+			 EMAIL : '<%=(user!=null)?user.GetEmail():null%>'
+			,NICK : '<%=(user!=null)?user.GetNick():null%>'
+			,SHOW_HIDDEN_REPLIES : <%=(user!=null)?user.GetShowHiddenReplies():null%>
+			,USE_NICK : <%=(user!=null)?user.GetUseNick():null%>
 			,LOGOUT : '<%=logout%>'
 		}
 	</script>

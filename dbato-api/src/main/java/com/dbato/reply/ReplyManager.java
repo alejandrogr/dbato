@@ -6,6 +6,7 @@ import java.util.List;
 import com.dbato.comments.CommentDto;
 import com.dbato.comments.CommentManager;
 import com.dbato.commons.ReplyVO;
+import com.dbato.exception.NeedUserException;
 import com.igzcode.java.util.collection.NameValueArray;
 
 public class ReplyManager extends ReplyFactory {
@@ -14,8 +15,12 @@ public class ReplyManager extends ReplyFactory {
 		return _Get(p_replyId);
 	}
 
-	public void Save(ReplyDto p_reply) {
-		_Save(p_reply);
+	public void Save(ReplyDto p_reply) throws NeedUserException {
+		if( p_reply.GetOwner() != null && p_reply.GetOwnerId() != null ){
+			_Save( p_reply );
+		} else {
+			throw new NeedUserException("Reply must have a valid owner");
+		}
 	}
 
 	public List<ReplyVO> FindByDiscussion(Long p_discussionId) {
@@ -66,7 +71,7 @@ public class ReplyManager extends ReplyFactory {
 		return replyVo;
 	}
 
-	public Integer Vote(Integer p_vote, Long p_replyId) {
+	public Integer Vote(Integer p_vote, Long p_replyId) throws NeedUserException {
 		System.out.println("VOTE REPLY ID" + p_replyId);
 		ReplyDto reply = Get(p_replyId);
 

@@ -15,6 +15,8 @@ public class CommentDto extends AbstractEntity {
 	private Long replyKey;
 
 	private String text;
+	
+	private String owner;
 
 	private Date creationDate;
 	private Date updateDate;
@@ -53,6 +55,14 @@ public class CommentDto extends AbstractEntity {
 
 	public String GetText() {
 		return text;
+	}
+
+	public void SetOwner( String p_owner ) {
+		owner = p_owner;
+	}
+	
+	public String GetOwner() {
+		return owner;
 	}
 
 }
