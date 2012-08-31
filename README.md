@@ -16,10 +16,17 @@ There are to kinds of votes in Dbato:
   
 To post in Dbato you need to be logged in with a Google account. However you can post as a hidden user to protect your email.
   
-  
-  
+## To Launch the app
+    
+    cd dbato
+    mvn clean install
+    mvn gae:run
+
+
 ## CURRENT FEATURES
 * Create discussions
+* Tags in discussions
+* Search discussion by title, text or tag
 * Reply to discussions
 * List discussions
 * Vote replies
@@ -27,11 +34,10 @@ To post in Dbato you need to be logged in with a Google account. However you can
 * Comments on replies
 
 ## TODO (until beta release)
-* Prevent users to post or vote when they are not logged in
+* Asociate comments with users in backend
 * Disallow multiple votes on a same reply by same user
 * Difference between regular and relevant votes
 * App redesign
-* Discussion searches
 * Tag filters
 * List My Discussions or discussions which have any of my replies
 * List all my replies
@@ -40,7 +46,7 @@ To post in Dbato you need to be logged in with a Google account. However you can
 ## ROADMAP (for the future)
 * Allow OpenID
 * Allow user registration
-* Allow posting with pseudonym
+* Allow posting with alias
 * Allow post as hidden user
 * Share a reply or discussion
 * Favorite discussions
