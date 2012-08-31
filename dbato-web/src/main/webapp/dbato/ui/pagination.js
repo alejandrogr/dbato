@@ -16,6 +16,7 @@ iris.UI(
 		});
 		
 		self.Create = function() {
+			self.TemplateMode( self.TEMPLATE_APPEND );
 			self.Template( dbato.Resource("ui/pagination.html") );
 			_$ = self.$Get();
 			_$Pagination = self.$Get("pagination");
@@ -26,9 +27,8 @@ iris.UI(
 		}
 		
 		function _AddPages( p_number ){
-			
 			var first = {"prev":true,"active" : false, "onGoto" : _OnGoto};
-			var last = {"next":true, "onGoto" : _OnGoto};
+			var last = {"next":true, "active" : ((p_number == 1) ? false : true), "onGoto" : _OnGoto};
 			var num = {"num":0, "active" : true, "onGoto" : _OnGoto};
 			
 			_Pages[_Pages.length] = self.InstanceUI(_$Pagination, dbato.Resource("ui/pagination_item.js"),first)
@@ -58,7 +58,7 @@ iris.UI(
 			var to = from + num;
 			
 			_$TrItems.each(function(p_i, p_el){
-				if( p_i > from && p_i < to ){
+				if( p_i >= from && p_i < to ){
 					$(p_el).show();
 				} else {
 					$(p_el).hide();

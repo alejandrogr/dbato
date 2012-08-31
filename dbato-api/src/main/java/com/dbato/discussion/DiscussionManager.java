@@ -40,7 +40,7 @@ public class DiscussionManager extends DiscussionFactory {
 	}
 		
 	public List<DiscussionDto> FindAll() {
-        return _FindAll();
+        return _FindAll("-updateDate");
     }
 	
 	public void DeleteAll () {

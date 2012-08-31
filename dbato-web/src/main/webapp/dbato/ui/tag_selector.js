@@ -17,8 +17,14 @@ iris.UI(
 		};
 		
 		self.Inflate = function( p_data ){
+			iris.D(p_data);
 			if( p_data.length > 0 ){
-				_$TagText.typeahead({"source":p_data});
+				var f,F=p_data.length;
+				var opts = [];
+				for(f=0;f<F;f++){
+					opts[opts.length] = p_data[f].text;
+				}
+				_$TagText.typeahead({"source":opts});
 			}
 		};
 		

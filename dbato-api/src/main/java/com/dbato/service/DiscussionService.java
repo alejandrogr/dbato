@@ -45,8 +45,6 @@ public class DiscussionService {
 			@PathParam("queryString") String p_queryString ) throws Exception {
 		Gson response = new Gson();
 		
-		System.out.println( "FindDiscussions" );
-		
 		DiscussionManager discussionM = new DiscussionManager();
 		List<DiscussionDto> discussionL = discussionM.Find( p_queryString );
 		

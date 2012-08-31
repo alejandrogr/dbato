@@ -47,7 +47,7 @@ iris.UI(
 						_$.trigger("closed");
 						_$.remove();
 					}
-					,2000
+					,4000
 				);
 			}
 			

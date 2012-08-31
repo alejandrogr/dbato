@@ -4,6 +4,7 @@ iris.UI(
 		var 
 			  _$Title
 			, _$Replies
+			, _$LastUpdated
 			, _$
 		;
 		
@@ -17,6 +18,7 @@ iris.UI(
 			_$Replies = self.$Get("replies");
 			_$Title = self.$Get("title");
 			_$Tags = self.$Get("tags");
+			_$LastUpdated = self.$Get("last_updated");
 			_$ = self.$Get();
 			
 			if( self.Setting("visible") == false ){
@@ -30,6 +32,8 @@ iris.UI(
 			_$Replies.html( p_data["numReplies"] );
 			_$Title.html( p_data["title"] );
 			_$.data("id", p_data["discussionId"]);
+			_$LastUpdated.html( p_data["updateDate"] );
+
 			_AddTags( p_data );
 		};
 		

@@ -18,3 +18,12 @@ DIV.alert_container .alert{
 	position: absolute;
 	
 }
+
+DIV.tag_list .label-success {
+	float: left;
+}
+
+SPAN.label {
+	padding: 2px;
+	margin: 1px;
+}

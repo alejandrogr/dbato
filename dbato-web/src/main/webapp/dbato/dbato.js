@@ -30,11 +30,12 @@ iris.lang.Load("es-ES", {
 var dbato = new function () {
 	
 	var _MainContainer = null;
-	var _TagList = [];
 	
 	this.EVENTS = {
 		 "TAG_UPDATED" : "TAG_UPDATED"
 	};
+
+	this.RELOAD_DISCUSSIONS = true;
 	
 	this.Resource = function( p_resource ){
 		return iris.global.Data("appPath") + "/" + p_resource;
@@ -51,20 +52,13 @@ var dbato = new function () {
 		 SERVICE_KO : "SERVICE_KO"
 		,NOTIFICATION_MESSAGE : "NOTIFICATION_MESSAGE"
 		,RELOAD_DISCUSSION_LIST : "RELOAD_DISCUSSION_LIST"
+		,TAGS_RELOADED : "TAGS_RELOADED"
+		,DISCUSSIONS_RELOADED : "DISCUSSIONS_RELOADED"
 	};
 	
-	this.GetAllTags = function(){
-		if ( _TagList.length == 0 ){
-			dbato.service.Tag.GetAll(function( p_json ){
-				var f,F = p_json.length;
-				var tagList = [];
-				for( f=0; f<F; f++){
-					tagList[f] = p_json[f].text;
-				}
-				iris.event.Notify( dbato.EVENTS.TAG_UPDATED, {"tagList" : tagList} );
-			});
-		}
-		return _TagList;
+	this.ForceReloads = function(){
+		dbato.service.Tag.Load();
+		dbato.service.Discussion.Load();
 	}
 	
 	this.service = new function () {
@@ -144,7 +138,12 @@ $(document).ready(
 		iris.screen.Add( $("[data-id='footer']"), "#footer", dbato.Resource("screen/footer.js"), true );
 		iris.screen.Add( $("[data-id='sidebar']"), "#sidebar", dbato.Resource("screen/sidebar.js"), true );
 		
-		
+		setInterval(
+			function(){
+				dbato.ForceReloads();
+			}
+			,10000
+		);
 		
 		
 		iris.GotoUrlHash("#home");

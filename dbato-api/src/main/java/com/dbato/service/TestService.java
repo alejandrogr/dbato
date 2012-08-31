@@ -47,6 +47,7 @@ public class TestService {
 		ReplyType replyType = ReplyType.AGAINST;
 		List<String> tagL = new ArrayList<String>();
 		List<String> tagL2 = new ArrayList<String>();
+		List<String> tags;
 		
 		tagL.add("política");
 		tagL.add("tecnología");
@@ -55,20 +56,26 @@ public class TestService {
 		tagL2.add("politica");
 		tagL2.add("religión");
 		
-		for (int i = 0; i < tagL.size(); i++) {
-			tagM.AddUpdateTag(tagL.get(i));
-		}
-		
 		double tagList;
 		
 		for( int i = 0; i<numDiscussions; i ++){
 			tagList = Math.random();
 			
+			if( tagList > 0.5 ){
+				tags = tagL;
+			} else {
+				tags = tagL2;
+			}
+
+			for (int t = 0; t < tags.size(); t++) {
+				tagM.AddUpdateTag(tags.get(t));
+			}
+			
 			discussionDto = new DiscussionDto();
 			
 			discussionDto.SetTitle("Tittle " + i);
 			discussionDto.SetText("Discussion " + i + " text.");
-			discussionDto.SetTags( (tagList > 0.5) ? tagL : tagL2 );
+			discussionDto.SetTags( tags );
 			discussionDto.SetOwner( user.GetEmail() );
 			discussionDto.SetOwnerId( user.GetId() );
 			discussionM.Save( discussionDto );

@@ -20,7 +20,7 @@ iris.Screen(
 			
 			_$Text.wysihtml5();
 			
-			_TagSelector.Inflate( dbato.GetAllTags() );
+			 dbato.service.Tag.GetAll( _TagSelector.Inflate );
 		};
 
 		function _CreateDiscussion( p_event ){
@@ -31,9 +31,12 @@ iris.Screen(
 				, _TagSelector.Values()
 				, function( p_json ){
 					  _TagSelector.Clean();
-					  _$Title.val("");
-					  _$Text.html("");
+					  dbato.RELOAD_DISCUSSIONS = true;
+					  dbato.service.Tag.Load();
 					  iris.Goto("#discussion#list");
+					  dbato.alert.Alert("Discussion \""+_$Title.val()+"\" was succesful created", true);
+					  _$Title.val("");
+					  _$Text.data("wysihtml5").editor.clear();
 				}
 			);
 		}
