@@ -32,6 +32,7 @@ public class DiscussionDto extends AbstractEntity {
 	
 	private Date creationDate;
 	private Date updateDate;
+	private Date lastReplyDate;
 	
 	@PrePersist
 	private void _SetCreatedAndUpdated () {
@@ -61,6 +62,14 @@ public class DiscussionDto extends AbstractEntity {
 
 	public void SetId(Long p_id) {
 		this.discussionId = p_id;
+	}
+
+	public Date GetLastReplyDate() {
+		return lastReplyDate;
+	}
+
+	public void SetLastReplyDate(Date p_lastReplyDate) {
+		this.lastReplyDate = p_lastReplyDate;
 	}
 
 	public Long GetOwnerId() {

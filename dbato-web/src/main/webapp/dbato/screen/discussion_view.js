@@ -57,6 +57,9 @@ iris.Screen(
 			_HiddenReplies = 0;
 			_JustNevagiteRepliesLeft = false;
 			
+			_$HiddenRepliesMsg.hide();
+			_$ShowMoreReplies.hide();
+			
 			if( dbato.USER != null ){
 				_Reply.Show();
 				_LoginUi.Hide();
@@ -79,14 +82,13 @@ iris.Screen(
 			_TotalReplies = p_json.replies.length;
 			_Replies = p_json.replies;
 			_InflateReplies( _Replies );
-			
-			
 		}
 		
 		function _InflateReplies( p_replies ){
 			var reply;
 			var f,F = _TotalReplies;
 			var curRep = _CurrentReplies;
+			
 			for(f=curRep;f<F;f++){
 				reply = p_replies[f].reply;
 				

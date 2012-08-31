@@ -6,16 +6,15 @@ BODY {
 	padding-top: 80px;
 }
 
-/*BOOTSTRAP TWEAKS*/
-SPAN.label {
-	padding: 2px 4px;
-	margin-left: 4px;
+DIV.alert_container {
+	position: absolute;
+	left: 50%;
+	width: 400px;
+	margin-left: -200px;
+	top: 0px;
 }
 
-DIV.well.pro {
-	background-color: #99FF99;
-}
-
-DIV.well.against {
-	background-color: #FFCCCC;
+DIV.alert_container .alert{
+	position: absolute;
+	
 }

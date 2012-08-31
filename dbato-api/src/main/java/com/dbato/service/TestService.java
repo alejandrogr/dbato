@@ -42,25 +42,33 @@ public class TestService {
 		ReplyDto replyDto;
 		CommentDto commentDto;
 		
-		int numDiscussions = 10;
+		int numDiscussions = 30;
 		int numReplies, totalVotes, votes, numComments;
 		ReplyType replyType = ReplyType.AGAINST;
 		List<String> tagL = new ArrayList<String>();
+		List<String> tagL2 = new ArrayList<String>();
 		
-		tagL.add("politica");
+		tagL.add("política");
 		tagL.add("tecnología");
 		tagL.add("deportes");
+
+		tagL2.add("politica");
+		tagL2.add("religión");
 		
 		for (int i = 0; i < tagL.size(); i++) {
 			tagM.AddUpdateTag(tagL.get(i));
 		}
 		
+		double tagList;
+		
 		for( int i = 0; i<numDiscussions; i ++){
+			tagList = Math.random();
+			
 			discussionDto = new DiscussionDto();
 			
 			discussionDto.SetTitle("Tittle " + i);
 			discussionDto.SetText("Discussion " + i + " text.");
-			discussionDto.SetTags( tagL );
+			discussionDto.SetTags( (tagList > 0.5) ? tagL : tagL2 );
 			discussionDto.SetOwner( user.GetEmail() );
 			discussionDto.SetOwnerId( user.GetId() );
 			discussionM.Save( discussionDto );

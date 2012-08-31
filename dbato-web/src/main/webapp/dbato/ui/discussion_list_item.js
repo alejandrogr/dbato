@@ -7,6 +7,10 @@ iris.UI(
 			, _$
 		;
 		
+		self.Settings({
+			"visible" : true
+		});
+		
 		self.Create = function () {
 			self.TemplateMode( self.TEMPLATE_APPEND );
 			self.Template(dbato.Resource("ui/discussion_list_item.html"));
@@ -14,6 +18,10 @@ iris.UI(
 			_$Title = self.$Get("title");
 			_$Tags = self.$Get("tags");
 			_$ = self.$Get();
+			
+			if( self.Setting("visible") == false ){
+				_$.hide();
+			}
 			
 			_$.on("click", _GotoDiscussion );
 		};
@@ -42,8 +50,6 @@ iris.UI(
 					} 
 				);
 			}
-			
 		}
-		
 	}
 );

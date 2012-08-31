@@ -47,4 +47,15 @@ dbato.service.Discussion = new function () {
 			, f_error
 		);
 	};
+	
+	this.Search = function ( p_query, f_success, f_error ) {
+		dbato.service.Get(
+			"discussion/search/" + p_query
+			, {}
+			,function ( p_json ) {
+				f_success( p_json  );
+			}
+			, f_error
+		);
+	};
 };

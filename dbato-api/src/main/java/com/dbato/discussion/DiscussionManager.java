@@ -3,6 +3,9 @@ package com.dbato.discussion;
 import java.util.List;
 
 import com.dbato.exception.NeedUserException;
+import com.dbato.tag.TagDto;
+import com.dbato.tag.TagManager;
+import com.googlecode.objectify.Query;
 
 public class DiscussionManager extends DiscussionFactory {
 
@@ -19,7 +22,21 @@ public class DiscussionManager extends DiscussionFactory {
 	}
 
 	public List<DiscussionDto> Find ( String p_queryString ) {
-		return _Find(p_queryString, "_Text");
+		TagManager tagM = new TagManager();
+		List<TagDto> tagL = tagM.Find(p_queryString);
+		if( tagL.size() > 0 ){
+			Query<DiscussionDto> query = _GetQuery();
+			query.filter("tags", p_queryString);
+			return query.list();
+		} else {
+			return _Find(p_queryString, "lastReplyDate");
+		}
+	}
+	
+	public List<DiscussionDto> FindByTag ( String p_tag ) {
+		Query<DiscussionDto> query = _GetQuery();
+		query.filter("tags", p_tag);
+		return query.list();
 	}
 		
 	public List<DiscussionDto> FindAll() {

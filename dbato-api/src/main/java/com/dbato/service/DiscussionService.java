@@ -1,6 +1,7 @@
 package com.dbato.service;
 
 import java.net.URI;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,6 +37,22 @@ public class DiscussionService {
 
 		return Response.ok().entity(response.toJson(discussionL)).build();
 	}
+	
+	@GET
+	@Path("/search/{queryString}")
+	@Produces("application/json;charset=UTF-8")
+	public Response FindDiscussions(
+			@PathParam("queryString") String p_queryString ) throws Exception {
+		Gson response = new Gson();
+		
+		System.out.println( "FindDiscussions" );
+		
+		DiscussionManager discussionM = new DiscussionManager();
+		List<DiscussionDto> discussionL = discussionM.Find( p_queryString );
+		
+		return Response.ok().entity(response.toJson(discussionL)).build();
+	}
+			
 
 	@GET
 	@Path("/{discussionId}")
@@ -103,6 +120,7 @@ public class DiscussionService {
 		
 		discussion = discussionM.Get( p_discussionKey );
 		discussion.SetNumReplies( discussion.GetNumReplies() + 1 );
+		discussion.SetLastReplyDate( new Date() );
 		discussionM.Save( discussion );
 
 		ReplyDto reply = new ReplyDto();

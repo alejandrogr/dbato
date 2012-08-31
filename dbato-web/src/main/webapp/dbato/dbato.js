@@ -48,8 +48,9 @@ var dbato = new function () {
 	};
 	
 	this.event = {
-		 SERVICE_KO : "service_ko"
-		,NOTIFICATION_MESSAGE : "notification_message"
+		 SERVICE_KO : "SERVICE_KO"
+		,NOTIFICATION_MESSAGE : "NOTIFICATION_MESSAGE"
+		,RELOAD_DISCUSSION_LIST : "RELOAD_DISCUSSION_LIST"
 	};
 	
 	this.GetAllTags = function(){
@@ -136,7 +137,6 @@ $(document).ready(
 		
 		iris.screen.Add( $("[data-id='header']"), "#header", dbato.Resource("screen/header.js"), true );
 		iris.screen.Add( dbato.MainContainer(), "#home", dbato.Resource("screen/home.js") );
-		iris.screen.Add( dbato.MainContainer(), "#discussion", dbato.Resource("screen/discussion.js") );
 		iris.screen.Add( dbato.MainContainer(), "#discussion#create", dbato.Resource("screen/discussion_create.js") );
 		iris.screen.Add( dbato.MainContainer(), "#discussion#list", dbato.Resource("screen/discussion_list.js") );
 		iris.screen.Add( dbato.MainContainer(), "#discussion#view", dbato.Resource("screen/discussion_view.js") );
