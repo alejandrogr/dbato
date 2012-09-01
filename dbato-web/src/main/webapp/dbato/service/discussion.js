@@ -10,7 +10,6 @@ dbato.service.Discussion = new function () {
 				if( typeof f_success == "function"){
 					f_success( p_json  );					
 				} else {
-					iris.D("NOTIFY DISCUSSIONS_RELOADED");
 					iris.event.Notify( dbato.event.DISCUSSIONS_RELOADED );
 				}
 			}

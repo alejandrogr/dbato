@@ -56,11 +56,6 @@ var dbato = new function () {
 		,DISCUSSIONS_RELOADED : "DISCUSSIONS_RELOADED"
 	};
 	
-	this.ForceReloads = function(){
-		dbato.service.Tag.Load();
-		dbato.service.Discussion.Load();
-	}
-	
 	this.service = new function () {
 		
 		function _NotifyError (p_service, p_msg, f_error) {
@@ -115,6 +110,7 @@ var dbato = new function () {
 			_Call("DELETE", p_service, p_params, f_success, f_error)
 		}
 	}
+	
 }
 
 
@@ -138,14 +134,22 @@ $(document).ready(
 		iris.screen.Add( $("[data-id='footer']"), "#footer", dbato.Resource("screen/footer.js"), true );
 		iris.screen.Add( $("[data-id='sidebar']"), "#sidebar", dbato.Resource("screen/sidebar.js"), true );
 		
+		iris.GotoUrlHash("#home");
+
+		
+		
+		iris.Include( dbato.Resource("service/tag.js"));
+		iris.Include( dbato.Resource("service/discussion.js"));
+		_ForceReloads = function(){
+			dbato.service.Tag.Load();
+			dbato.service.Discussion.Load();
+		}
+		
 		setInterval(
 			function(){
-				dbato.ForceReloads();
+				_ForceReloads();
 			}
 			,10000
 		);
-		
-		
-		iris.GotoUrlHash("#home");
 	}
 )
