@@ -8,7 +8,7 @@ iris.UI(
 			,_$Pagination
 			,_$TrItems
 			,_Pages = []
-			,_CurrentPage = 0
+			,_CurrentPage = 1
 		;
 
 		self.Settings({
