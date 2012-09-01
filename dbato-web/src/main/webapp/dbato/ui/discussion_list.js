@@ -18,16 +18,11 @@ iris.UI(
 			_$NoResults = self.$Get("no_results");
 			_$Results = self.$Get("resutls");
 			_$Pager = self.$Get("pager");
-			
-			iris.event.Subscribe( dbato.event.DISCUSSIONS_RELOADED, _GetAllDiscussions );
-			
+
 			_Pagination = self.InstanceUI(_$Pager, dbato.Resource("ui/pagination.js"), {"numItems" :  self.Setting("numItems")});
 			
 		};
 		
-		function _GetAllDiscussions(){
-			dbato.service.Discussion.GetAll( _Inflate );
-		}
 		
 		_Inflate = function( p_discussionList ){
 

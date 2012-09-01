@@ -75,6 +75,7 @@ iris.UI(
 			_Pages = [];
 			_$Pagination.html("");
 			_$TrItems = "";
+			_CurrentPage = 1;
 		}
 		
 		self.Paginate = _Paginate;

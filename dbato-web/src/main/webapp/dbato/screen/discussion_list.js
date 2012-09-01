@@ -12,9 +12,16 @@ iris.Screen(
 
 			_DiscussionList = self.InstanceUI("list", dbato.Resource("ui/discussion_list.js"));
 			
+			iris.event.Subscribe( dbato.event.DISCUSSIONS_RELOADED, _GetAllDiscussions );
+			
+			
 			_$Filter = self.$Get("filter");
 			_$Filter.hide();
 		};
+		
+		function _GetAllDiscussions(){
+			dbato.RELOAD_DISCUSSIONS = true;
+		}
 		
 		self.Awake = function( p_params ){
 			if( p_params.hasOwnProperty("list")){
@@ -24,7 +31,11 @@ iris.Screen(
 			} else {
 				if( dbato.RELOAD_DISCUSSIONS ){
 					dbato.RELOAD_DISCUSSIONS = false;
-					_ReloadList();
+					dbato.service.Discussion.Load(
+						function( p_json ){
+							  _DiscussionList.Inflate( p_json );
+						}
+					);
 				}
 			}
 		}
@@ -49,7 +60,6 @@ iris.Screen(
 									  "onDismiss" : _RemoveSearch
 								  }
 							);
-							
 							alert.Inflate("Discussions are filtered by \""+ p_text +"\", close to remove filter.");
 						  	_$Filter.show();
 						  	_DiscussionList.Inflate( p_json );

@@ -8,7 +8,7 @@ dbato.service.Discussion = new function () {
 			,function ( p_json ) {
 				dbato.service.Discussion.DiscussionList = p_json;
 				if( typeof f_success == "function"){
-					f_success( p_json  );					
+					f_success( p_json  );
 				} else {
 					iris.event.Notify( dbato.event.DISCUSSIONS_RELOADED );
 				}
@@ -20,7 +20,7 @@ dbato.service.Discussion = new function () {
 	this.GetAll = function ( f_success, f_error ) {
 		if( dbato.service.Discussion.DiscussionList.length != 0 ){
 			f_success( dbato.service.Discussion.DiscussionList );
-		} else {			
+		} else {
 			this.Load( f_success );
 		}
 	};

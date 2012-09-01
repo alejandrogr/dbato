@@ -135,7 +135,7 @@ $(document).ready(
 		iris.screen.Add( $("[data-id='sidebar']"), "#sidebar", dbato.Resource("screen/sidebar.js"), true );
 		
 		iris.GotoUrlHash("#home");
-
+		
 		
 		
 		iris.Include( dbato.Resource("service/tag.js"));
@@ -149,7 +149,7 @@ $(document).ready(
 			function(){
 				_ForceReloads();
 			}
-			,10000
+			,30000
 		);
 	}
 )
