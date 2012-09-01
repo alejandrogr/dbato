@@ -41,7 +41,7 @@ iris.Screen(
 				,_$ShowHiddenReplies.is(":checked")
 				,_$UseNick.is(":checked")
 				,function( p_json ){
-					iris.D("USER", p_json );
+					dbato.alert.Alert("Profile succesful saved!", true);
 				}
 			);
 		}
