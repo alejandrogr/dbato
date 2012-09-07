@@ -4,6 +4,7 @@ iris.Screen(
 		var
 			_DiscussionList
 			,_$Filter
+			,_Filtered = false
 		;
 		
 		self.Create = function () {
@@ -29,11 +30,12 @@ iris.Screen(
 			} else if( p_params.hasOwnProperty("search")){
 				_Search( p_params.search );
 			} else {
-				if( dbato.RELOAD_DISCUSSIONS ){
+				if( dbato.RELOAD_DISCUSSIONS && !_Filtered ){
 					dbato.RELOAD_DISCUSSIONS = false;
 					dbato.service.Discussion.Load(
 						function( p_json ){
-							  _DiscussionList.Inflate( p_json );
+							_$Filter.show()
+							_DiscussionList.Inflate( p_json );
 						}
 					);
 				}
@@ -63,7 +65,9 @@ iris.Screen(
 							alert.Inflate("Discussions are filtered by \""+ p_text +"\", close to remove filter.");
 						  	_$Filter.show();
 						  	_DiscussionList.Inflate( p_json );
+						  	_Filtered = true;
 					  } else if( p_json.length == 0 ){
+						  _Filtered = false;
 						  _$Filter.hide();
 						  _DiscussionList.NoResults();
 						  _NoResultsInSearch();

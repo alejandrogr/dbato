@@ -48,7 +48,7 @@
 	
 	<security-constraint>
         <web-resource-collection>
-            <url-pattern>login.jsp</url-pattern>
+            <url-pattern>/login.jsp</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>*</role-name>

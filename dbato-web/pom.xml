@@ -23,6 +23,7 @@
   		<groupId>com.dbato</groupId>
   		<artifactId>dbato-api</artifactId>
   		<version>0.1-SNAPSHOT</version>
+  		<scope>compiled</scope>
   	</dependency>
   </dependencies>
   <build>
