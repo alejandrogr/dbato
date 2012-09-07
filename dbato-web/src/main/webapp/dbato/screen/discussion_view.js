@@ -5,15 +5,11 @@ iris.Screen(
 			 _$Title
 			,_$Text
 			,_Reply
-			,_$Replies
+			,_DiscussionKey
+			,_RepliesPro
+			,_RepliesAgainst
+			,_RepliesNew
 			,_$Meta
-			,_$ShowMoreReplies
-			,_DiscussionId
-			,_TotalReplies
-			,_CurrentReplies
-			,_RepliesToShow
-			,_HiddenReplies
-			,_JustNevagiteRepliesLeft = false
 			,_LoginUi
 		;
 		
@@ -21,6 +17,7 @@ iris.Screen(
 			iris.Include(dbato.Resource("service/discussion.js"));
 			
 			self.Template(dbato.Resource("screen/discussion_view.html"));
+			_$Meta = self.$Get("meta");
 			
 			_Reply = self.InstanceUI(
 				  "post_reply"
@@ -28,38 +25,25 @@ iris.Screen(
 				, {"beforeReply" : _BeforeReply }
 			);
 			
+			_RepliesPro = self.InstanceUI(
+				  "replies_pro"
+				, dbato.Resource("ui/reply_list.js")
+				, {"replyType":dbato.CONSTANTS.REPLY_PRO}
+			);
+			
+			_RepliesAgainst =  self.InstanceUI(
+				  "replies_against"
+				, dbato.Resource("ui/reply_list.js")
+				, {"replyType":dbato.CONSTANTS.REPLY_AGAINST}
+			);
+			_RepliesNew =  self.InstanceUI(
+				  "replies_new"
+				, dbato.Resource("ui/reply_list.js")
+				, {"replyType":dbato.CONSTANTS.REPLY_NEW}
+			);
+			
 			_LoginUi = self.InstanceUI("login", dbato.Resource("ui/login.js"));
-			
-			_$Replies = self.$Get("replies");
-			_$Title = self.$Get("title");
-			_$Text = self.$Get("text");
-			_$HiddenRepliesMsg = self.$Get("hidden_replies_msg").hide();
-			_$HiddenRepliesNumber = self.$Get("hidden_replies_num");
-			_$ShowMoreReplies = self.$Get("show_more_replies").hide();
-			_$Meta = self.$Get("meta");
-			
-			_InflateEvents();
-		};
-		
-		
-		function _InflateEvents(){
-			_$HiddenRepliesMsg.on("click", _ShowMoreReplies);
-			_$ShowMoreReplies.on("click", _ShowMoreReplies);
-		}
-		
-		self.Awake = function( p_params ){
-			_DiscussionKey = p_params.id;
-			_Reply.SetDiscussionKey( _DiscussionKey );
-			dbato.service.Discussion.Get( _DiscussionKey, _Inflate );
 
-			_RepliesToShow = 5; 
-			_CurrentReplies = 0;
-			_HiddenReplies = 0;
-			_JustNevagiteRepliesLeft = false;
-			
-			_$HiddenRepliesMsg.hide();
-			_$ShowMoreReplies.hide();
-			
 			if( dbato.USER != null ){
 				_Reply.Show();
 				_LoginUi.Hide();
@@ -67,6 +51,22 @@ iris.Screen(
 				_Reply.Hide();
 				_LoginUi.Show();
 			}
+			
+			_$Title = self.$Get("title");
+			_$Text = self.$Get("text");
+			
+		};
+		
+		
+		
+		self.Awake = function( p_params ){
+			_DiscussionKey = p_params.id;
+			_Reply.SetDiscussionKey( _DiscussionKey );
+			_RepliesPro.SetDiscussionKey( _DiscussionKey );
+			_RepliesAgainst.SetDiscussionKey( _DiscussionKey );
+			_RepliesNew.SetDiscussionKey( _DiscussionKey );
+
+			dbato.service.Discussion.Get( _DiscussionKey, _Inflate );
 		}
 		
 		function _BeforeReply(){
@@ -77,60 +77,16 @@ iris.Screen(
 			_$Title.html( p_json.discussion.title );
 			_$Text.html( p_json.discussion.text );
 			_$Meta.html( "By " + p_json.discussion.owner + " on " + p_json.discussion.updateDate);
-			_$Replies.html("");
 			
-			_TotalReplies = p_json.replies.length;
 			_Replies = p_json.replies;
-			_InflateReplies( _Replies );
+
+			_RepliesPro.Inflate( _Replies );
+			_RepliesAgainst.Inflate( _Replies );
+			_RepliesNew.Inflate( _Replies );
+			
 		}
 		
-		function _InflateReplies( p_replies ){
-			var reply;
-			var f,F = _TotalReplies;
-			var curRep = _CurrentReplies;
-			
-			for(f=curRep;f<F;f++){
-				reply = p_replies[f].reply;
-				
-				
-				if( dbato.USER == null || ( dbato.USER != null && dbato.USER.SHOW_HIDDEN_REPLIES == false) ){
-					if ( reply.votes < -10 && !_JustNevagiteRepliesLeft){
-						_JustNevagiteRepliesLeft = true;
-						_$HiddenRepliesMsg.show();
-						_$HiddenRepliesNumber.html( _HiddenReplies );
-						_RepliesToShow = _CurrentReplies;
-						break;
-					}
-				}
-				
-				var replyUI = self.InstanceUI( "replies", dbato.Resource("ui/reply.js"));
-				replyUI.Inflate( p_replies[f] );
-				
-				_CurrentReplies = f + 1;
-				
-				if( f >= _RepliesToShow - 1 ) break;
-			}
-			
-			_HiddenReplies = _TotalReplies - _CurrentReplies;
-			
-			if( _HiddenReplies > 0 ){
-				if( _JustNevagiteRepliesLeft ){
-					_$HiddenRepliesMsg.show();
-					_$HiddenRepliesNumber.html( _HiddenReplies );
-					_$ShowMoreReplies.hide();
-				} else {
-					_$ShowMoreReplies.show();	
-				}
-			} else {
-				_$ShowMoreReplies.hide();
-				_$HiddenRepliesMsg.hide();
-			}
-		}
 		
-		function _ShowMoreReplies(){
-			_RepliesToShow = _RepliesToShow + 5;
-			_InflateReplies( _Replies );
-		}
 		
 	}
 );

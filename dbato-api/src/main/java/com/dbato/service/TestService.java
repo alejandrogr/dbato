@@ -1,6 +1,8 @@
 package com.dbato.service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.ws.rs.GET;
@@ -56,7 +58,9 @@ public class TestService {
 		tagL2.add("politica");
 		tagL2.add("religión");
 		
-		double tagList;
+		double tagList,re;
+		int changeDate;
+		Date replyDate;
 		
 		for( int i = 0; i<numDiscussions; i ++){
 			tagList = Math.random();
@@ -86,7 +90,7 @@ public class TestService {
 				totalVotes = (int) ( Math.random() * 10);
 				votes = (int) ( Math.random() * 30) * ( ( Math.random() > 0.5) ? 1 : -1);
 				
-				double re = Math.random();
+				re = Math.random();
 				if ( re < 0.3){
 					replyType = ReplyType.PRO;
 				} else if( re >= 0.3 && re <= 0.6 ){
@@ -94,6 +98,8 @@ public class TestService {
 				} else if( re > 0.6 ){
 					replyType = ReplyType.AGAINST;
 				}
+				
+				changeDate = (int) (Math.random() * 3);
 				
 				replyDto = new ReplyDto();
 				replyDto.SetDiscussionKey( discussionDto.GetId() );
@@ -103,6 +109,14 @@ public class TestService {
 				replyDto.SetVotes( votes );
 				replyDto.SetOwner( user.GetEmail() );
 				replyDto.SetOwnerId( user.GetId() );
+				
+				replyDate = new Date();
+				Calendar cal = Calendar.getInstance();
+				cal.setTime( replyDate );
+				cal.add( Calendar.DATE, -changeDate );
+				replyDate.setTime( cal.getTimeInMillis() );
+				replyDto.setCreationDate( replyDate );
+				
 				replyM.Save( replyDto );
 				
 				double hasComments = Math.random();

@@ -8,7 +8,6 @@ iris.UI(
 		self.Create = function () {
 			iris.Include(dbato.Resource("service/tag.js"));
 			self.Template(dbato.Resource("ui/tag_selector.html"));
-			iris.event.Subscribe( dbato.EVENTS.TAG_UPDATED, _Inflate );
 			
 			_$TagText = self.$Get("tag_text");
 			_$TagList = self.$Get("tag_list");

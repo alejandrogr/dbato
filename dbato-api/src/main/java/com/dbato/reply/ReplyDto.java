@@ -35,7 +35,7 @@ public class ReplyDto extends AbstractEntity {
 	
 	@PrePersist
 	private void _SetCreatedAndUpdated () {
-		if ( replyId == null ) {
+		if ( replyId == null && creationDate == null ) {
 			creationDate = new Date();
 		}
 		updateDate = new Date();
@@ -47,6 +47,14 @@ public class ReplyDto extends AbstractEntity {
 		votes = 0;
 		totalVotes = 0;
 		numComments = 0;
+	}
+	
+	public Date getCreationDate(){
+		return creationDate;
+	}
+	
+	public void setCreationDate( Date p_creationDate ){
+		this.creationDate = p_creationDate;
 	}
 	
 	public Long GetId() {

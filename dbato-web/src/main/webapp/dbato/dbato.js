@@ -29,6 +29,13 @@ iris.lang.Load("es-ES", {
 
 var dbato = new function () {
 	
+	this.CONSTANTS = {
+		 REPLY_PRO : "PRO"
+		,REPLY_AGAINST : "AGAINST"
+		,REPLY_NEW : "NEW"
+	};
+	
+	
 	this.Resource = function( p_resource ){
 		return iris.global.Data("appPath") + "/" + p_resource;
 	};
