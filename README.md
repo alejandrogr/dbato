@@ -43,6 +43,7 @@ To post in Dbato you need to be logged in with a Google account. However you can
 * List My Discussions or discussions which have any of my replies
 * List all my replies
 * Report a discussion, reply or comment.
+* Add Google Channels to update cliente contet
   
 ## ROADMAP (for the future)
 * Allow OpenID
