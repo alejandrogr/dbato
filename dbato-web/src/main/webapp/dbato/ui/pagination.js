@@ -31,16 +31,16 @@ iris.UI(
 			var last = {"next":true, "active" : ((p_number == 1) ? false : true), "onGoto" : _OnGoto};
 			var num = {"num":0, "active" : true, "onGoto" : _OnGoto};
 			
-			_Pages[_Pages.length] = self.InstanceUI(_$Pagination, dbato.Resource("ui/pagination_item.js"),first)
+			_Pages[_Pages.length] = self.InstanceUI("pagination", dbato.Resource("ui/pagination_item.js"),first)
 			
 			for( f=0;f<p_number;f++){
 				num.active = (f==0)?false:true;
 				num.num = f;
 				
-				_Pages[_Pages.length] = self.InstanceUI(_$Pagination, dbato.Resource("ui/pagination_item.js"), num)
+				_Pages[_Pages.length] = self.InstanceUI("pagination", dbato.Resource("ui/pagination_item.js"), num)
 			}
 
-			_Pages[_Pages.length] = self.InstanceUI(_$Pagination, dbato.Resource("ui/pagination_item.js"),last)
+			_Pages[_Pages.length] = self.InstanceUI("pagination", dbato.Resource("ui/pagination_item.js"),last)
 			
 		}
 		

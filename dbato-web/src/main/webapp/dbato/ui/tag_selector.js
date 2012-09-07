@@ -38,7 +38,7 @@ iris.UI(
 			_Tags[_Tags.length] = _$TagText.val();
 			
 			self.InstanceUI( 
-				  _$TagList
+				  "tag_list"
 				, dbato.Resource("ui/tag.js")
 				, {
 					  "onTagRemove" : _OnTagRemove

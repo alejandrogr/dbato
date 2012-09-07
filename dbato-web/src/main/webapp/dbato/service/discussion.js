@@ -1,30 +1,15 @@
 dbato.service.Discussion = new function () {
-	this.DiscussionList = [];
 	
-	this.Load = function ( f_success, f_error ) {
+	this.GetAll = function ( f_success, f_error ) {
 		dbato.service.Get(
 			 "discussion"
 			, {}
 			,function ( p_json ) {
-				dbato.service.Discussion.DiscussionList = p_json;
-				if( typeof f_success == "function"){
-					f_success( p_json  );
-				} else {
-					iris.event.Notify( dbato.event.DISCUSSIONS_RELOADED );
-				}
+				f_success( p_json  );
 			}
 			, f_error
 		);
 	};
-	
-	this.GetAll = function ( f_success, f_error ) {
-		if( dbato.service.Discussion.DiscussionList.length != 0 ){
-			f_success( dbato.service.Discussion.DiscussionList );
-		} else {
-			this.Load( f_success );
-		}
-	};
-	
 	
 	this.Get = function ( p_id, f_success, f_error ) {
 		dbato.service.Get(
@@ -52,8 +37,6 @@ dbato.service.Discussion = new function () {
 			, f_error
 		);
 	};
-	
-	
 	
 	this.Search = function ( p_query, f_success, f_error ) {
 		dbato.service.Get(

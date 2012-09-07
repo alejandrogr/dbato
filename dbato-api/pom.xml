@@ -22,7 +22,7 @@
     <dependency>
       <groupId>com.igzcode.java</groupId>
       <artifactId>igzcode-gae</artifactId>
-      <version>1.4-SNAPSHOT</version>
+      <version>1.5</version>
     </dependency>
   </dependencies>
   

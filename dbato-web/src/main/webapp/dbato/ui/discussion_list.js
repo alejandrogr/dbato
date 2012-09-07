@@ -19,7 +19,7 @@ iris.UI(
 			_$Results = self.$Get("resutls");
 			_$Pager = self.$Get("pager");
 
-			_Pagination = self.InstanceUI(_$Pager, dbato.Resource("ui/pagination.js"), {"numItems" :  self.Setting("numItems")});
+			_Pagination = self.InstanceUI("pager", dbato.Resource("ui/pagination.js"), {"numItems" :  self.Setting("numItems")});
 			
 		};
 		
@@ -52,11 +52,6 @@ iris.UI(
 		};
 		
 		function _NoResults(){
-			iris.D("_$Pager", _$Pager);
-			iris.D("_$Results", _$Results);
-			iris.D("_$NoResults", _$NoResults);
-			
-			
 			_$Pager.hide();
 			_$Results.hide();
 			_$NoResults.show();

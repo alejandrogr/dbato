@@ -4,7 +4,6 @@ iris.Screen(
 		var
 			_DiscussionList
 			,_$Filter
-			,_Filtered = false
 		;
 		
 		self.Create = function () {
@@ -13,15 +12,18 @@ iris.Screen(
 
 			_DiscussionList = self.InstanceUI("list", dbato.Resource("ui/discussion_list.js"));
 			
-			iris.event.Subscribe( dbato.event.DISCUSSIONS_RELOADED, _GetAllDiscussions );
-			
-			
 			_$Filter = self.$Get("filter");
 			_$Filter.hide();
+
+			_GetAllDiscussions();
 		};
 		
 		function _GetAllDiscussions(){
-			dbato.RELOAD_DISCUSSIONS = true;
+			dbato.service.Discussion.GetAll(
+				function( p_json ){
+					  _DiscussionList.Inflate( p_json );
+				}
+			);
 		}
 		
 		self.Awake = function( p_params ){
@@ -29,22 +31,12 @@ iris.Screen(
 				_DiscussionList.Inflate( p_params.list );
 			} else if( p_params.hasOwnProperty("search")){
 				_Search( p_params.search );
-			} else {
-				if( dbato.RELOAD_DISCUSSIONS && !_Filtered ){
-					dbato.RELOAD_DISCUSSIONS = false;
-					dbato.service.Discussion.Load(
-						function( p_json ){
-							_$Filter.show()
-							_DiscussionList.Inflate( p_json );
-						}
-					);
-				}
 			}
 		}
 		
 		function _RemoveSearch(){
 			iris.Goto("#discussion#list");
-			_ReloadList();
+			_GetAllDiscussions();
 		}
 		
 		function _Search( p_text ){
@@ -56,7 +48,7 @@ iris.Screen(
 					  } else if( p_json.length > 1 ){
 						  	_$Filter.html("");
 						  	var alert = self.InstanceUI(
-								  _$Filter
+								  "filter"
 								, dbato.Resource("ui/alert_item.js")
 								, {
 									  "onDismiss" : _RemoveSearch
@@ -80,14 +72,12 @@ iris.Screen(
 			dbato.alert.AlertError("No results", true);
 		}
 		
-		function _ReloadList(){
+		function _GetAllDiscussions(){
 			dbato.service.Discussion.GetAll(
 				function( p_json ){
 					  _DiscussionList.Inflate( p_json );
 				}
 			);
 		}
-		
-		
 	}
 );

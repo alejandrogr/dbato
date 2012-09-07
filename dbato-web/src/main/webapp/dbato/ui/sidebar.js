@@ -1,20 +1,16 @@
-iris.Screen(
+iris.UI(
 	function (self) {
 	
 		var 
 			_$
-			,_$Container
 			,_Login
 			,_$Logout
-			,_$TagList
 		;
 		
 		self.Create = function () {
-			self.Template(dbato.Resource("screen/sidebar.html"));
+			self.Template(dbato.Resource("ui/sidebar.html"));
 			
 			_$ = self.$Get();
-			_$TagList = self.$Get("tag_list");
-			_$Container = _$.closest("[data-id='sidebar']");
 
 			_Login = self.InstanceUI(
 				"login"
@@ -25,7 +21,7 @@ iris.Screen(
 				}
 			);
 			
-			self.InstanceUI( _$TagList, dbato.Resource("ui/tag_list.js"));
+			self.InstanceUI( "tag_list", dbato.Resource("ui/tag_list.js"));
 			
 		};
 		

@@ -6,7 +6,6 @@ iris.Screen(
 			self.Template(dbato.Resource("screen/home.html"));
 			
 			
-			
 		};
 		
 	}

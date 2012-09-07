@@ -1,4 +1,4 @@
-iris.Screen(
+iris.UI(
 	function (self) {
 	
 		var 
@@ -10,15 +10,13 @@ iris.Screen(
 		;
 		
 		self.Create = function () {
-			self.Template(dbato.Resource("screen/header.html"));
+			self.Template(dbato.Resource("ui/header.html"));
 			
 			_$DiscussionCreate = self.$Get("discussion_create");
 			_$MyDiscussions = self.$Get("my_discussions");
 			_$Profile = self.$Get("profile");
 			_$Search = self.$Get("search");
 			_$SearchForm = self.$Get("search_form");
-			
-			dbato.alert = self.InstanceUI( $("[data-id='alert']"), dbato.Resource("ui/alert.js") );
 			
 			_InflateEvents();
 		};

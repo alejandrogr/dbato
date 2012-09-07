@@ -103,7 +103,7 @@ iris.Screen(
 					}
 				}
 				
-				var replyUI = self.InstanceUI( _$Replies, dbato.Resource("ui/reply.js"));
+				var replyUI = self.InstanceUI( "replies", dbato.Resource("ui/reply.js"));
 				replyUI.Inflate( p_replies[f] );
 				
 				_CurrentReplies = f + 1;

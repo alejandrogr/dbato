@@ -34,7 +34,7 @@ iris.UI(
 			for(f=0;f<F;f++){
 				
 				self.InstanceUI(
-					  _$TagList
+					  "tag_list"
 					, dbato.Resource("ui/tag.js")
 					, {
 						 "label" : p_tagList[f].text

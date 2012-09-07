@@ -1,9 +1,9 @@
-iris.Screen(
+iris.UI(
 	function (self) {
 	
 		
 		self.Create = function () {
-			self.Template(dbato.Resource("screen/footer.html"));
+			self.Template(dbato.Resource("ui/footer.html"));
 		};
 		
 	}

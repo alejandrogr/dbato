@@ -46,7 +46,7 @@ iris.UI(
 			for(f=0;f<F;f++){
 				var tag = p_data.tags[f];
 				self.InstanceUI( 
-					  _$Tags
+					  "tags"
 					, dbato.Resource("ui/tag.js")
 					, {
 						  "label" : tag

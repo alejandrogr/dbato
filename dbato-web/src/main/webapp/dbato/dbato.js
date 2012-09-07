@@ -29,31 +29,13 @@ iris.lang.Load("es-ES", {
 
 var dbato = new function () {
 	
-	var _MainContainer = null;
-	
-	this.EVENTS = {
-		 "TAG_UPDATED" : "TAG_UPDATED"
-	};
-
-	this.RELOAD_DISCUSSIONS = true;
-	
 	this.Resource = function( p_resource ){
 		return iris.global.Data("appPath") + "/" + p_resource;
-	};
-	
-	this.MainContainer = function( p_container ){
-		if( typeof p_container != "undefined"){
-			_MainContainer = p_container;
-		}
-		return _MainContainer;
 	};
 	
 	this.event = {
 		 SERVICE_KO : "SERVICE_KO"
 		,NOTIFICATION_MESSAGE : "NOTIFICATION_MESSAGE"
-		,RELOAD_DISCUSSION_LIST : "RELOAD_DISCUSSION_LIST"
-		,TAGS_RELOADED : "TAGS_RELOADED"
-		,DISCUSSIONS_RELOADED : "DISCUSSIONS_RELOADED"
 	};
 	
 	this.service = new function () {
@@ -98,25 +80,23 @@ var dbato = new function () {
 			);
 		}
 		this.Get = function (p_service, p_params, f_success, f_error){
-			_Call("GET", p_service, p_params, f_success, f_error)
-		}
+			_Call("GET", p_service, p_params, f_success, f_error);
+		};
 		this.Put = function (p_service, p_params, f_success, f_error){
-			_Call("PUT", p_service, p_params, f_success, f_error)
-		}
+			_Call("PUT", p_service, p_params, f_success, f_error);
+		};
 		this.Post = function (p_service, p_params, f_success, f_error){
-			_Call("POST", p_service, p_params, f_success, f_error)
-		}
+			_Call("POST", p_service, p_params, f_success, f_error);
+		};
 		this.Delete = function (p_service, p_params, f_success, f_error){
-			_Call("DELETE", p_service, p_params, f_success, f_error)
-		}
-	}
-	
-}
+			_Call("DELETE", p_service, p_params, f_success, f_error);
+		};
+	};
+};
 
 
 $(document).ready(
 	function () {
-		dbato.MainContainer($("[data-id='main']"));
 		
 		if( USER.EMAIL != "null" ){
 			dbato.USER = USER;
@@ -125,31 +105,6 @@ $(document).ready(
 			dbato.USER = null;
 		}
 		
-		iris.screen.Add( $("[data-id='header']"), "#header", dbato.Resource("screen/header.js"), true );
-		iris.screen.Add( dbato.MainContainer(), "#home", dbato.Resource("screen/home.js") );
-		iris.screen.Add( dbato.MainContainer(), "#discussion#create", dbato.Resource("screen/discussion_create.js") );
-		iris.screen.Add( dbato.MainContainer(), "#discussion#list", dbato.Resource("screen/discussion_list.js") );
-		iris.screen.Add( dbato.MainContainer(), "#discussion#view", dbato.Resource("screen/discussion_view.js") );
-		iris.screen.Add( dbato.MainContainer(), "#profile", dbato.Resource("screen/profile.js") );
-		iris.screen.Add( $("[data-id='footer']"), "#footer", dbato.Resource("screen/footer.js"), true );
-		iris.screen.Add( $("[data-id='sidebar']"), "#sidebar", dbato.Resource("screen/sidebar.js"), true );
-		
-		iris.GotoUrlHash("#home");
-		
-		
-		
-		iris.Include( dbato.Resource("service/tag.js"));
-		iris.Include( dbato.Resource("service/discussion.js"));
-		_ForceReloads = function(){
-			dbato.service.Tag.Load();
-			dbato.service.Discussion.Load();
-		}
-		
-		setInterval(
-			function(){
-				_ForceReloads();
-			}
-			,30000
-		);
+		iris.screen.WelcomeScreen(dbato.Resource("screen/main.js"));
 	}
-)
+);
