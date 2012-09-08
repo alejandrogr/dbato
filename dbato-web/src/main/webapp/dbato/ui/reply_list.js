@@ -8,8 +8,10 @@ iris.UI(
 			,_TotalReplies
 			,_CurrentReplies
 			,_RepliesToShow
-			,_HiddenReplies
 			,_JustNevagiteRepliesLeft = false
+			,_SelectColumnBtn
+			,_HiddenReplies
+			,_$
 		;
 	
 		self.Settings({
@@ -19,18 +21,74 @@ iris.UI(
 		self.Create = function () {
 			self.Template(dbato.Resource("ui/reply_list.html"));
 			
-			_$HiddenRepliesMsg = self.$Get("hidden_replies_msg").hide();
-			_$HiddenRepliesNumber = self.$Get("hidden_replies_num");
 			_$ShowMoreReplies = self.$Get("show_more_replies").hide();
+			_SelectColumnBtn = self.$Get("select_column");
+			_$Replies = self.$Get("replies");
 			
+			_$ = self.$Get();
 			
-			
+			_SetSelectColumnText();
 			_InflateEvents();
 		};
 	
 		function _InflateEvents(){
-			_$HiddenRepliesMsg.on("click", _ShowMoreReplies);
 			_$ShowMoreReplies.on("click", _ShowMoreReplies);
+			_SelectColumnBtn.on("click", _OnSelectColumn);
+			iris.event.Subscribe( dbato.EVENTS.REPLY_COLUMN_SELECTED, _OnAnotherColumnSelected );
+		}
+		
+		function _OnSelectColumn( p_event ){
+			p_event.preventDefault();
+			_SelectColumn();
+		}
+		
+		function _OnAnotherColumnSelected( p_params ){
+			if( p_params.type != self.Setting("replyType") ){
+				_HideColumn();
+			}
+		}
+		
+		function _SetSelectColumnText(){
+			if( self.Setting("replyType") == dbato.CONSTANTS.REPLY_PRO ){
+				_SelectColumnBtn.html("Pro Replies");
+				_SelectColumnBtn.addClass("btn-success");
+			} else if( self.Setting("replyType") == dbato.CONSTANTS.REPLY_AGAINST ){
+				_SelectColumnBtn.html("Against Replies");
+				_SelectColumnBtn.addClass("btn-warning");
+			} else if( self.Setting("replyType") == dbato.CONSTANTS.REPLY_NEW ){
+				_SelectColumnBtn.html("New Replies");
+				_SelectColumnBtn.addClass("btn-info");
+			}
+		}
+		
+		function _SetSelectColumnIcon(){
+			_SelectColumnBtn.html('<i class="icon-search"></i');
+		}
+		
+		function _HideColumn(){
+			_$Replies.hide();
+			_$ShowMoreReplies.hide();
+			_SetSelectColumnIcon();
+			_$.removeClass("span3").removeClass("span9").addClass("span1");
+		}
+		
+		function _ShowColumn(){
+			_$Replies.show();
+			if( _HiddenReplies > 0 ){
+				_$ShowMoreReplies.show();
+			}
+			_SetSelectColumnText();
+			_$.removeClass("span1").removeClass("span9").addClass("span3");
+		}
+		
+		function _SelectColumn(){
+			_$Replies.show();
+			if( _HiddenReplies > 0 ){
+				_$ShowMoreReplies.show();
+			}
+			_SetSelectColumnText();
+			_$.removeClass("span1").removeClass("span3").addClass("span9");
+			iris.event.Notify( dbato.EVENTS.REPLY_COLUMN_SELECTED, {"type": self.Setting("replyType")} );
 		}
 		
 		function _Inflate( p_json ){
@@ -38,10 +96,8 @@ iris.UI(
 			
 			_RepliesToShow = 5; 
 			_CurrentReplies = 0;
-			_HiddenReplies = 0;
 			_JustNevagiteRepliesLeft = false;
 			
-			_$HiddenRepliesMsg.hide();
 			_$ShowMoreReplies.hide();
 			
 			var repliesToShow = [];
@@ -62,7 +118,6 @@ iris.UI(
 					repliesToShow[repliesToShow.length] = p_json[f];
 				}
 			}
-			iris.D( self.Setting("replyType"), repliesToShow);
 			_TotalReplies = repliesToShow.length;
 			_InflateReplies( repliesToShow );
 		}
@@ -74,37 +129,20 @@ iris.UI(
 			
 			for(f=curRep;f<F;f++){
 				reply = p_replies[f].reply;
-				
-				if( dbato.USER == null || ( dbato.USER != null && dbato.USER.SHOW_HIDDEN_REPLIES == false) ){
-					if ( reply.votes < -10 && !_JustNevagiteRepliesLeft){
-						_JustNevagiteRepliesLeft = true;
-						_$HiddenRepliesMsg.show();
-						_$HiddenRepliesNumber.html( _HiddenReplies );
-						_RepliesToShow = _CurrentReplies;
-						break;
-					}
-				}
+
 				var replyUI = self.InstanceUI( "replies", dbato.Resource("ui/reply.js"));
 				replyUI.Inflate( p_replies[f] );
 				
 				_CurrentReplies = f + 1;
-				
 				if( f >= _RepliesToShow - 1 ) break;
 			}
 			
 			_HiddenReplies = _TotalReplies - _CurrentReplies;
 			
 			if( _HiddenReplies > 0 ){
-				if( _JustNevagiteRepliesLeft ){
-					_$HiddenRepliesMsg.show();
-					_$HiddenRepliesNumber.html( _HiddenReplies );
-					_$ShowMoreReplies.hide();
-				} else {
-					_$ShowMoreReplies.show();	
-				}
+				_$ShowMoreReplies.show();	
 			} else {
 				_$ShowMoreReplies.hide();
-				_$HiddenRepliesMsg.hide();
 			}
 		}
 		

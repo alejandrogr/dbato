@@ -17,7 +17,7 @@ iris.UI(
 			
 			_$TagList = self.$Get("tag_list");
 			
-			iris.event.Subscribe( dbato.event.TAGS_RELOADED, _GetAllTags );
+			iris.event.Subscribe( dbato.EVENTS.TAGS_RELOADED, _GetAllTags );
 			
 			dbato.service.Tag.GetAll( _Inflate );
 		};

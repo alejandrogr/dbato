@@ -27,3 +27,12 @@ SPAN.label {
 	padding: 2px;
 	margin: 1px;
 }
+
+DIV.reply_container {
+	
+}
+
+BUTTON.reply_row_select {
+	width: 100%;
+	margin-bottom: 10px;
+}

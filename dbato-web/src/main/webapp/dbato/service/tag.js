@@ -18,7 +18,7 @@ dbato.service.Tag = new function () {
 				if( typeof f_success == "function"){
 					f_success( p_json  );					
 				} else {
-					iris.event.Notify( dbato.event.TAGS_RELOADED );
+					iris.event.Notify( dbato.EVENTS.TAGS_RELOADED );
 				}
 			}
 			, f_error

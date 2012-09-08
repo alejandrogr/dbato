@@ -40,9 +40,10 @@ var dbato = new function () {
 		return iris.global.Data("appPath") + "/" + p_resource;
 	};
 	
-	this.event = {
+	this.EVENTS = {
 		 SERVICE_KO : "SERVICE_KO"
 		,NOTIFICATION_MESSAGE : "NOTIFICATION_MESSAGE"
+		,REPLY_COLUMN_SELECTED : "REPLY_COLUMN_SELECTED"
 	};
 	
 	this.service = new function () {
@@ -50,7 +51,7 @@ var dbato = new function () {
 		function _NotifyError (p_service, p_msg, f_error) {
 			iris.E("service error", p_service, p_msg);
 			
-			iris.event.Notify(dbato.event.SERVICE_KO, {"msg" : iris.lang.Get(p_msg)});
+			iris.event.Notify(dbato.EVENTS.SERVICE_KO, {"msg" : iris.lang.Get(p_msg)});
 			
 			if ( f_error ) {
 				f_error();
