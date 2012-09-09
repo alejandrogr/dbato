@@ -21,6 +21,7 @@ To post in Dbato you need to be logged in with a Google account. However you can
     cd dbato
     mvn clean install
     cd dbato-web
+    mvn gae:unpack
     mvn gae:run
 
 
