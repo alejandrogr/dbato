@@ -9,7 +9,7 @@ iris.UI(
 			,_CurrentReplies
 			,_RepliesToShow
 			,_JustNevagiteRepliesLeft = false
-			,_SelectColumnBtn
+			,_ColumnTitle
 			,_HiddenReplies
 			,_$
 		;
@@ -22,7 +22,7 @@ iris.UI(
 			self.Template(dbato.Resource("ui/reply_list.html"));
 			
 			_$ShowMoreReplies = self.$Get("show_more_replies").hide();
-			_SelectColumnBtn = self.$Get("select_column");
+			_ColumnTitle = self.$Get("column_title");
 			_$Replies = self.$Get("replies");
 			
 			_$ = self.$Get();
@@ -33,62 +33,55 @@ iris.UI(
 	
 		function _InflateEvents(){
 			_$ShowMoreReplies.on("click", _ShowMoreReplies);
-			_SelectColumnBtn.on("click", _OnSelectColumn);
-			iris.event.Subscribe( dbato.EVENTS.REPLY_COLUMN_SELECTED, _OnAnotherColumnSelected );
+			iris.event.Subscribe( dbato.EVENTS.REPLY_COLUMN_SELECTED, _ColumnSelected );
+			iris.event.Subscribe( dbato.EVENTS.REPLY_COLUMN_UNSELECTED, _ColumnUnselected );
+			iris.event.Subscribe( dbato.EVENTS.REPLY_COLUMN_SHOW, _ShowColumn );
 		}
 		
-		function _OnSelectColumn( p_event ){
-			p_event.preventDefault();
-			_SelectColumn();
-		}
-		
-		function _OnAnotherColumnSelected( p_params ){
-			if( p_params.type != self.Setting("replyType") ){
-				_HideColumn();
+		function _ColumnSelected( p_params ){
+			if( p_params.type == self.Setting("replyType") ){
+				_Adjust(p_params.num_columns);
+				_$.show();
+			} else {
+				_Adjust(p_params.num_columns);
 			}
+		}
+		
+		function _ShowColumn( p_params ){
+			_Adjust(p_params.num_columns);
+			_$.show();
 		}
 		
 		function _SetSelectColumnText(){
 			if( self.Setting("replyType") == dbato.CONSTANTS.REPLY_PRO ){
-				_SelectColumnBtn.html("Pro Replies");
-				_SelectColumnBtn.addClass("btn-success");
+				_ColumnTitle.html("Pro Replies");
 			} else if( self.Setting("replyType") == dbato.CONSTANTS.REPLY_AGAINST ){
-				_SelectColumnBtn.html("Against Replies");
-				_SelectColumnBtn.addClass("btn-warning");
+				_ColumnTitle.html("Against Replies");
 			} else if( self.Setting("replyType") == dbato.CONSTANTS.REPLY_NEW ){
-				_SelectColumnBtn.html("New Replies");
-				_SelectColumnBtn.addClass("btn-info");
+				_ColumnTitle.html("New Replies");
 			}
-		}
-		
-		function _SetSelectColumnIcon(){
-			_SelectColumnBtn.html('<i class="icon-search"></i');
 		}
 		
 		function _HideColumn(){
-			_$Replies.hide();
-			_$ShowMoreReplies.hide();
-			_SetSelectColumnIcon();
-			_$.removeClass("span3").removeClass("span9").addClass("span1");
+			_$.hide();
 		}
 		
-		function _ShowColumn(){
-			_$Replies.show();
-			if( _HiddenReplies > 0 ){
-				_$ShowMoreReplies.show();
+		function _ColumnUnselected( p_params ){
+			if( p_params.type == self.Setting("replyType") ){
+				_$.hide();
+			} else {
+				_Adjust(p_params.num_columns);
 			}
-			_SetSelectColumnText();
-			_$.removeClass("span1").removeClass("span9").addClass("span3");
 		}
 		
-		function _SelectColumn(){
-			_$Replies.show();
-			if( _HiddenReplies > 0 ){
-				_$ShowMoreReplies.show();
+		function _Adjust( p_ncols ){
+			if( p_ncols == 1 ){
+				_$.removeClass("span3").removeClass("span5").addClass("span9");
+			} else if( p_ncols == 2 ){
+				_$.removeClass("span3").removeClass("span9").addClass("span5");
+			} else if( p_ncols == 3 ){
+				_$.removeClass("span5").removeClass("span9").addClass("span3");
 			}
-			_SetSelectColumnText();
-			_$.removeClass("span1").removeClass("span3").addClass("span9");
-			iris.event.Notify( dbato.EVENTS.REPLY_COLUMN_SELECTED, {"type": self.Setting("replyType")} );
 		}
 		
 		function _Inflate( p_json ){

@@ -44,6 +44,7 @@ var dbato = new function () {
 		 SERVICE_KO : "SERVICE_KO"
 		,NOTIFICATION_MESSAGE : "NOTIFICATION_MESSAGE"
 		,REPLY_COLUMN_SELECTED : "REPLY_COLUMN_SELECTED"
+		,REPLY_COLUMN_SHOW : "REPLY_COLUMN_SHOW"
 	};
 	
 	this.service = new function () {

@@ -11,6 +11,11 @@ iris.Screen(
 			,_RepliesNew
 			,_$Meta
 			,_LoginUi
+			,_$SelectPro
+			,_$SelectNew
+			,_$SelectAgainst
+			,_$UnSelectAll
+			,_NumColumns
 		;
 		
 		self.Create = function () {
@@ -18,6 +23,15 @@ iris.Screen(
 			
 			self.Template(dbato.Resource("screen/discussion_view.html"));
 			_$Meta = self.$Get("meta");
+			
+			_$SelectPro = self.$Get("select_pro");
+			_$SelectNew = self.$Get("select_new");
+			_$SelectAgainst = self.$Get("select_against");
+			_$UnSelectAll = self.$Get("unselect_all");
+			
+			_$SelectPro.data("selected", true);
+			_$SelectNew.data("selected", true);
+			_$SelectAgainst.data("selected", true);
 			
 			_Reply = self.InstanceUI(
 				  "post_reply"
@@ -54,6 +68,9 @@ iris.Screen(
 			
 			_$Title = self.$Get("title");
 			_$Text = self.$Get("text");
+			_NumColumns = 3;
+			
+			_InflateEvents();
 			
 		};
 		
@@ -86,6 +103,37 @@ iris.Screen(
 			
 		}
 		
+		function _InflateEvents(){
+			_$SelectPro.on("click", function(){
+				_SelectColumn($(this), dbato.CONSTANTS.REPLY_PRO);
+			});
+			_$SelectNew.on("click", function(){
+				_SelectColumn($(this), dbato.CONSTANTS.REPLY_NEW);
+			});
+			_$SelectAgainst.on("click", function(){
+				_SelectColumn($(this), dbato.CONSTANTS.REPLY_AGAINST);
+			});
+			_$UnSelectAll.on("click", _UnselectAll);
+		}
+		
+		function _SelectColumn( p_btn, p_type ){
+			if ( p_btn.data("selected") === false ){
+				_NumColumns ++;
+				iris.event.Notify( dbato.EVENTS.REPLY_COLUMN_SELECTED, {"type": p_type, "num_columns" : _NumColumns} );
+				p_btn.data("selected", true);
+				iris.D("SELECTED", p_type);
+			} else {
+				_NumColumns --;
+				iris.event.Notify( dbato.EVENTS.REPLY_COLUMN_UNSELECTED, {"type": p_type, "num_columns" : _NumColumns} );
+				p_btn.data("selected", false);
+				iris.D("UNSELECTED", p_type);
+			}
+		}
+
+		function _UnselectAll(){
+			_NumColumns = 3;
+			iris.event.Notify( dbato.EVENTS.REPLY_COLUMN_SHOW, {"num_columns" : _NumColumns} );
+		}
 		
 		
 	}

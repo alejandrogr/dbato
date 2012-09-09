@@ -50,7 +50,7 @@ iris.UI(
 		}
 		
 		function _SearchByTag( p_text ){
-			iris.Goto("#discussion#list?search=" + p_text);
+			iris.Goto("#discussion#list?search=" +  encodeURI( p_text ));
 		}
 		
 	}
