@@ -21,8 +21,8 @@ import com.dbato.tag.TagManager;
 import com.dbato.user.UserDto;
 import com.dbato.user.UserManager;
 
-@Path("/test")
-public class TestService {
+@Path("/DBDummie")
+public class DBDumieService {
 
 	@GET
 	@Produces("application/json;charset=UTF-8")
