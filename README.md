@@ -20,13 +20,12 @@ To post in Dbato you need to be logged in with a Google account. However you can
     
     cd dbato
     mvn clean install
-    cd dbato-web
-    mvn gae:unpack
+    mvn gae:unpack //just if you dont have the SDK instaled in your local M2_REPO
     mvn gae:run
 
 Then navigate to http://localhost:8080/s/DBDummie to fill the datastore with test some data. 
-Nagiate to http://localhost:8080
-Welcome to Dbato.
+Nagiate to http://localhost:8080  
+Welcome to Dbato.  
 
 
 ## CURRENT FEATURES
