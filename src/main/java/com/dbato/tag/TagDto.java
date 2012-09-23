@@ -20,32 +20,34 @@ public class TagDto extends AbstractEntity {
 		super();
 	}
 	
-	public void UpdateCount(){
+	public void updateCount(){
 		count = count + 1;
-	};
-	
-	public Long GetId() {
+	}
+
+	public Long getTagId() {
 		return tagId;
 	}
 
-	public void SetId(Long p_id) {
-		this.tagId = p_id;
+	public void setTagId(Long p_tagId) {
+		tagId = p_tagId;
 	}
 
-	public void SetText( String p_value ) {
-		text = p_value;
-	}
-	
-	public String GetText() {
+	public String getText() {
 		return text;
 	}
 
-	public void SetCount( Long p_value ) {
-		count = p_value;
+	public void setText(String p_text) {
+		text = p_text;
 	}
-	
-	public Long GetCount() {
+
+	public Long getCount() {
 		return count;
 	}
+
+	public void setCount(Long p_count) {
+		count = p_count;
+	};
+	
+	
 
 }

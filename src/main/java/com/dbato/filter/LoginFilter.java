@@ -36,10 +36,10 @@ public class LoginFilter implements Filter {
         		UserManager userM = new UserManager();
         		UserDto userDto = userM.GetByEmail( user.getEmail() );
         		if( userDto != null ){
-        			p_request.setAttribute("userId", userDto.GetId());
-        			String userDesc = userDto.GetEmail();
-        			if ( userDto.GetUseNick().equals( true )){
-        				userDesc = userDto.GetNick();
+        			p_request.setAttribute("userId", userDto.getUserId());
+        			String userDesc = userDto.getEmail();
+        			if ( userDto.getUseNick().equals( true )){
+        				userDesc = userDto.getNick();
         			} 
             		p_request.setAttribute("userDesc", userDesc);
         			

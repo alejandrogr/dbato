@@ -10,17 +10,35 @@ import com.dbato.reply.ReplyDto;
 
 
 
-
 public class ReplyVO {
 	
 	private ReplyDto reply;
 	private List<CommentDto> comments;
+	private Boolean userCanVote;
 	
-	public void SetReply( ReplyDto p_reply){
+	public ReplyDto getReply() {
+		return reply;
+	}
+
+	public void setReply(ReplyDto p_reply) {
 		reply = p_reply;
 	}
-	
-	public void SetComments( List<CommentDto> p_comments ){
+
+	public List<CommentDto> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<CommentDto> p_comments) {
 		comments = p_comments;
 	}
+
+	public Boolean getUserCanVote() {
+		return userCanVote;
+	}
+
+	public void setUserCanVote(Boolean p_userCanVote) {
+		userCanVote = p_userCanVote;
+	}
+	
+	
 }

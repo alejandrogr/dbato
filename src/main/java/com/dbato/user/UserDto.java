@@ -38,43 +38,61 @@ public class UserDto extends AbstractEntity {
 		useNick = false;
 	}
 
-	public Long GetId() {
+	public Long getUserId() {
 		return userId;
 	}
 
-	public void SetId(Long p_id) {
-		this.userId = p_id;
+	public void setUserId(Long p_userId) {
+		userId = p_userId;
 	}
 
-	public void SetNick(String p_value) {
-		nick = p_value;
-	}
-
-	public String GetNick() {
+	public String getNick() {
 		return nick;
 	}
 
-	public void SetEmail(String p_value) {
-		email = p_value;
+	public void setNick(String p_nick) {
+		nick = p_nick;
 	}
 
-	public String GetEmail() {
+	public String getEmail() {
 		return email;
 	}
 
-	public void SetShowHiddenReplies(Boolean p_value) {
-		showHiddenReplies = p_value;
+	public void setEmail(String p_email) {
+		email = p_email;
 	}
 
-	public Boolean GetShowHiddenReplies() {
+	public Boolean getShowHiddenReplies() {
 		return showHiddenReplies;
 	}
 
-	public void SetUseNick(Boolean p_value) {
-		useNick = p_value;
+	public void setShowHiddenReplies(Boolean p_showHiddenReplies) {
+		showHiddenReplies = p_showHiddenReplies;
 	}
 
-	public Boolean GetUseNick() {
+	public Boolean getUseNick() {
 		return useNick;
 	}
+
+	public void setUseNick(Boolean p_useNick) {
+		useNick = p_useNick;
+	}
+
+	public Date getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(Date p_creationDate) {
+		creationDate = p_creationDate;
+	}
+
+	public Date getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(Date p_updateDate) {
+		updateDate = p_updateDate;
+	}
+
+	
 }

@@ -1,6 +1,7 @@
 package com.dbato.service;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -14,6 +15,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 
+import com.dbato.comments.CommentDto;
+import com.dbato.comments.CommentManager;
 import com.dbato.commons.Constant.ReplyType;
 import com.dbato.commons.DiscussionVO;
 import com.dbato.commons.ReplyVO;
@@ -56,18 +59,34 @@ public class DiscussionService {
 	@Path("/{discussionId}")
 	@Produces("application/json;charset=UTF-8")
 	public Response GetDiscussion(
-			@PathParam("discussionId") Long p_discussionId ) throws Exception {
+			  @PathParam("discussionId") Long p_discussionId
+			, @Context HttpServletRequest p_request ) throws Exception {
 		Gson response = new Gson();
 
 		DiscussionManager discussionM = new DiscussionManager();
 		DiscussionDto discussion = discussionM.Get(p_discussionId);
 		
 		ReplyManager replyM = new ReplyManager();
-		List<ReplyVO> replyL = replyM.FindByDiscussion(discussion.GetId());
+		List<ReplyDto> replyL = replyM.FindByDiscussion(discussion.getDiscussionId());
+		
+		ReplyDto reply;
+		List<CommentDto> comments;
+		List<ReplyVO> repliesVo = new ArrayList<ReplyVO>();
+		ReplyVO replyVo;
+		CommentManager commentM = new CommentManager();
+		for (int i = 0; i < replyL.size(); i++) {
+			reply = replyL.get(i);
+			comments = new ArrayList<CommentDto>();
+			if (reply.getNumComments() > 0) {
+				comments = commentM.FindByReply(reply.getReplyId());
+			}
+			replyVo = replyM.getReplyVO( reply, comments, (Long) p_request.getAttribute("userId") );
+			repliesVo.add(replyVo);
+		}
 		
 		DiscussionVO discusionVO = new DiscussionVO();
 		discusionVO.SetDiscussion( discussion );
-		discusionVO.SetReplies( replyL );
+		discusionVO.SetReplies( repliesVo );
 		
 		return Response.ok().entity(response.toJson(discusionVO)).build();
 	}
@@ -89,14 +108,14 @@ public class DiscussionService {
 		}
 
 		DiscussionDto discussion = new DiscussionDto();
-		discussion.SetTitle(p_title);
-		discussion.SetText(p_text);
-		discussion.SetTags(p_tags);
-		discussion.SetOwner( (String) p_request.getAttribute("userDesc") );
-		discussion.SetOwnerId( (Long) p_request.getAttribute("userId") );
+		discussion.setTitle(p_title);
+		discussion.setText(p_text);
+		discussion.setTags(p_tags);
+		discussion.setOwner( (String) p_request.getAttribute("userDesc") );
+		discussion.setOwnerId( (Long) p_request.getAttribute("userId") );
 		discussionM.Save(discussion);
 
-		long sheetId = discussion.GetId();
+		long sheetId = discussion.getDiscussionId();
 
 		URI location = new URI("" + sheetId);
 		return Response.created(location).entity(response.toJson(discussion)).build();
@@ -117,19 +136,19 @@ public class DiscussionService {
 		DiscussionDto discussion = new DiscussionDto();
 		
 		discussion = discussionM.Get( p_discussionKey );
-		discussion.SetNumReplies( discussion.GetNumReplies() + 1 );
-		discussion.SetLastReplyDate( new Date() );
+		discussion.setNumReplies( discussion.getNumReplies() + 1 );
+		discussion.setLastReplyDate( new Date() );
 		discussionM.Save( discussion );
 
 		ReplyDto reply = new ReplyDto();
-		reply.SetText( p_text );
-		reply.SetDiscussionKey( p_discussionKey );
-		reply.SetReplyType( p_replyType );
-		reply.SetOwner( (String) p_request.getAttribute("userDesc")  );
-		reply.SetOwnerId( (Long) p_request.getAttribute("userId") );
+		reply.setText( p_text );
+		reply.setDiscussionKey( p_discussionKey );
+		reply.setReplyType( p_replyType );
+		reply.setOwner( (String) p_request.getAttribute("userDesc")  );
+		reply.setOwnerId( (Long) p_request.getAttribute("userId") );
 		replyM.Save(reply);
 
-		long replyId = reply.GetId();
+		long replyId = reply.getReplyId();
 
 		URI location = new URI("/reply/" + replyId);
 		

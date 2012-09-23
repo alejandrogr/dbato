@@ -35,7 +35,7 @@ iris.Screen(
 		}
 		
 		function _RemoveSearch(){
-			iris.Goto("#discussion/list");
+			iris.Goto("#discussion-list");
 			_GetAllDiscussions();
 		}
 		

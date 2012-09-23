@@ -23,7 +23,7 @@ public class UserManager extends UserFactory {
 	}
 
 	public void Save ( UserDto p_user ) throws ParamsException {
-		if( p_user.GetNick().equals("")){
+		if( p_user.getNick().equals("")){
 			throw new ParamsException("Nick can't be empty");
 		} else {
 			_Save( p_user );

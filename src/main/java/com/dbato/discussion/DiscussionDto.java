@@ -2,11 +2,14 @@ package com.dbato.discussion;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
 
+import com.dbato.commons.VoteVO;
+import com.dbato.commons.Constant.ReplyType;
 import com.igzcode.java.gae.pattern.AbstractEntity;
 import com.igzcode.java.gae.tag.Searchable;
 
@@ -30,6 +33,8 @@ public class DiscussionDto extends AbstractEntity {
 	
 	private Integer numReplies;
 	
+	private List<VoteVO> votesUser; //users who voted in any reply, and what they vote
+	
 	private Date creationDate;
 	private Date updateDate;
 	private Date lastReplyDate;
@@ -46,70 +51,101 @@ public class DiscussionDto extends AbstractEntity {
 		super();
 		
 		numReplies = 0;
-	}
-	
-	public void SetTags( List<String> p_tags){
-		this.tags = p_tags;
-	}
-	
-	public List<String> GetTags(){
-		return this.tags;
+		votesUser = new ArrayList<VoteVO>();
 	}
 
-	public Long GetId() {
+	public List<VoteVO> getVotesUser() {
+		return votesUser;
+	}
+
+	public void setVotesUser(List<VoteVO> p_votesUser) {
+		votesUser = p_votesUser;
+	}
+	
+	public void addVoteUser(VoteVO p_vote){
+		votesUser.add(p_vote);
+	}
+
+	public Long getDiscussionId() {
 		return discussionId;
 	}
 
-	public void SetId(Long p_id) {
-		this.discussionId = p_id;
+	public void setDiscussionId(Long p_discussionId) {
+		discussionId = p_discussionId;
 	}
 
-	public Date GetLastReplyDate() {
-		return lastReplyDate;
-	}
-
-	public void SetLastReplyDate(Date p_lastReplyDate) {
-		this.lastReplyDate = p_lastReplyDate;
-	}
-
-	public Long GetOwnerId() {
-		return ownerId;
-	}
-
-	public void SetOwnerId(Long p_id) {
-		this.ownerId = p_id;
-	}
-
-	public Integer GetNumReplies() {
-		return numReplies;
-	}
-
-	public void SetNumReplies(Integer p_num) {
-		this.numReplies = p_num;
-	}
-
-	public void SetText( String p_value ) {
-		text = p_value;
-	}
-	
-	public String GetText() {
-		return text;
-	}
-
-	public void SetTitle( String p_value ) {
-		title = p_value;
-	}
-	
-	public String GetTitle() {
+	public String getTitle() {
 		return title;
 	}
 
-	public void SetOwner( String p_owner ) {
-		owner = p_owner;
+	public void setTitle(String p_title) {
+		title = p_title;
 	}
-	
-	public String GetOwner() {
+
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String p_text) {
+		text = p_text;
+	}
+
+	public String getOwner() {
 		return owner;
 	}
+
+	public void setOwner(String p_owner) {
+		owner = p_owner;
+	}
+
+	public Long getOwnerId() {
+		return ownerId;
+	}
+
+	public void setOwnerId(Long p_ownerId) {
+		ownerId = p_ownerId;
+	}
+
+	public List<String> getTags() {
+		return tags;
+	}
+
+	public void setTags(List<String> p_tags) {
+		tags = p_tags;
+	}
+
+	public Integer getNumReplies() {
+		return numReplies;
+	}
+
+	public void setNumReplies(Integer p_numReplies) {
+		numReplies = p_numReplies;
+	}
+
+	public Date getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(Date p_creationDate) {
+		creationDate = p_creationDate;
+	}
+
+	public Date getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(Date p_updateDate) {
+		updateDate = p_updateDate;
+	}
+
+	public Date getLastReplyDate() {
+		return lastReplyDate;
+	}
+
+	public void setLastReplyDate(Date p_lastReplyDate) {
+		lastReplyDate = p_lastReplyDate;
+	}
+	
+	
 
 }

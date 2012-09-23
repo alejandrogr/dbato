@@ -42,10 +42,17 @@ iris.UI(
 		function _Inflate( p_reply ){
 			var reply = p_reply.reply;
 			var comments = _Comments = p_reply.comments;
+			var userCanVote = p_reply.userCanVote;
 			
 			_ReplyId = reply.replyId;
 			_$Text.html( reply.text );
-			_$NumComments.html( comments.length );	
+			_$NumComments.html( comments.length );
+			
+			if ( !userCanVote ){
+				_$VoteUp.unbind();
+				_$VoteUp.addClass("disabled");
+				_$VoteUp.attr("title", "already voted");
+			}
 		}
 		
 		function _InflateEvents(){
@@ -54,6 +61,9 @@ iris.UI(
 		}
 		
 		function _VoteUp(){
+			_$VoteUp.unbind();
+			_$VoteUp.addClass("disabled");
+			_$VoteUp.attr("title", "already voted");
 			dbato.service.Reply.Vote( 1, _ReplyId, function(){} );		
 		}
 		

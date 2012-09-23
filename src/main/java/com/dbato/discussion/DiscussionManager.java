@@ -14,7 +14,7 @@ public class DiscussionManager extends DiscussionFactory {
 	}	
 
 	public void Save ( DiscussionDto p_discussion ) throws NeedUserException {
-		if( p_discussion.GetOwner() != null && p_discussion.GetOwnerId() != null ){
+		if( p_discussion.getOwner() != null && p_discussion.getOwnerId() != null ){
 			_Save( p_discussion );
 		} else {
 			throw new NeedUserException("Discussion must have a valid owner");

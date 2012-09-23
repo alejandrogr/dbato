@@ -1,6 +1,8 @@
 package com.dbato.service;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.FormParam;
@@ -26,15 +28,15 @@ public class ReplyService {
 	@PUT
 	@Path("/vote")
 	@Produces("application/json;charset=UTF-8")
-	public Response GetAll(
+	public Response Vote(
 		  @FormParam("v") Integer p_vote
 	    , @FormParam("ri") Long p_replyId
 		, @Context HttpServletRequest p_request	) throws Exception {
 		Gson response = new Gson();
 		
 		ReplyManager replyM = new ReplyManager();
-		replyM.Vote( p_vote, p_replyId );
-
+		replyM.Vote( p_replyId, (Long)p_request.getAttribute("userId") );
+		
 		ReplyDto reply = replyM.Get( p_replyId );
 		
 		return Response.ok().entity(response.toJson( reply )).build();
@@ -44,13 +46,21 @@ public class ReplyService {
 	@Path("/{replyId}")
 	@Produces("application/json;charset=UTF-8")
 	public Response GetDiscussion(
-			@PathParam("replyId") Long p_replyId ) throws Exception {
+			@PathParam("replyId") Long p_replyId
+		  , @Context HttpServletRequest p_request ) throws Exception {
 		Gson response = new Gson();
 
 		ReplyManager replyM = new ReplyManager();
-		ReplyVO reply = replyM.GetById(p_replyId); 
+		CommentManager commentM = new CommentManager();
+		ReplyDto reply = replyM.GetById(p_replyId); 
+		List<CommentDto> comments = new ArrayList<CommentDto>();
+
+		if (reply.getNumComments() > 0) {
+			comments = commentM.FindByReply(reply.getReplyId());
+		}
 		
-		return Response.ok().entity(response.toJson(reply)).build();
+		ReplyVO replyVo = replyM.getReplyVO( reply, comments, (Long)p_request.getAttribute("userId"));
+		return Response.ok().entity(response.toJson(replyVo)).build();
 	}
 	
 	@POST
@@ -67,15 +77,15 @@ public class ReplyService {
 		
 		ReplyDto reply = new ReplyDto();
 		reply = replyM.Get( p_replyKey );
-		reply.SetNumComments( reply.GetNumComments() + 1 );
+		reply.setNumComments( reply.getNumComments() + 1 );
 		replyM.Save(reply);
 
 		CommentDto comment = new CommentDto();
-		comment.SetText( p_text );
-		comment.SetReplyId( p_replyKey );
+		comment.setText( p_text );
+		comment.setReplyKey( p_replyKey );
 		commentM.Save(comment);
 
-		long commentId = comment.GetId();
+		long commentId = comment.getCommentId();
 
 		URI location = new URI("/comment/" + commentId);
 		

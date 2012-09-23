@@ -33,36 +33,52 @@ public class CommentDto extends AbstractEntity {
 		super();
 	}
 
-	public Long GetId() {
+	public Long getCommentId() {
 		return commentId;
 	}
 
-	public void SetId(Long p_id) {
-		this.commentId = p_id;
+	public void setCommentId(Long p_commentId) {
+		commentId = p_commentId;
 	}
 
-	public Long GetReplyId() {
+	public Long getReplyKey() {
 		return replyKey;
 	}
 
-	public void SetReplyId(Long p_id) {
-		this.replyKey = p_id;
+	public void setReplyKey(Long p_replyKey) {
+		replyKey = p_replyKey;
 	}
 
-	public void SetText(String p_value) {
-		text = p_value;
-	}
-
-	public String GetText() {
+	public String getText() {
 		return text;
 	}
 
-	public void SetOwner( String p_owner ) {
+	public void setText(String p_text) {
+		text = p_text;
+	}
+
+	public String getOwner() {
+		return owner;
+	}
+
+	public void setOwner(String p_owner) {
 		owner = p_owner;
 	}
-	
-	public String GetOwner() {
-		return owner;
+
+	public Date getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(Date p_creationDate) {
+		creationDate = p_creationDate;
+	}
+
+	public Date getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(Date p_updateDate) {
+		updateDate = p_updateDate;
 	}
 
 }

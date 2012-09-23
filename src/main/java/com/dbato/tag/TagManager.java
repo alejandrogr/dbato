@@ -9,12 +9,12 @@ public class TagManager extends TagFactory {
 		TagDto tag;
 		if ( found.size() > 0 ){
 			tag = found.get(0);
-			tag.UpdateCount();
+			tag.updateCount();
 			Save( tag );
 		} else if( found.size() == 0 ){
 			tag = new TagDto();
-			tag.SetText( p_text );
-			tag.SetCount( 1L );
+			tag.setText( p_text );
+			tag.setCount( 1L );
 			Save( tag );
 		}
 	}

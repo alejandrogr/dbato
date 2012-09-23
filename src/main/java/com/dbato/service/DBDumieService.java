@@ -36,8 +36,8 @@ public class DBDumieService {
 		
 		UserDto user = new UserDto();
 		
-		user.SetEmail("alejandrogr@gmail.com");
-		user.SetNick("Ale");
+		user.setEmail("alejandrogr@gmail.com");
+		user.setNick("Ale");
 		userM.Save( user );
 		
 		DiscussionDto discussionDto;
@@ -45,18 +45,18 @@ public class DBDumieService {
 		CommentDto commentDto;
 		
 		int numDiscussions = 30;
-		int numReplies, totalVotes, votes, numComments;
+		int numReplies, votes, numComments;
 		ReplyType replyType = ReplyType.AGAINST;
 		List<String> tagL = new ArrayList<String>();
 		List<String> tagL2 = new ArrayList<String>();
 		List<String> tags;
 		
-		tagL.add("política");
-		tagL.add("tecnología");
-		tagL.add("deportes");
+		tagL.add("politics");
+		tagL.add("tech");
+		tagL.add("sport");
 
-		tagL2.add("politica");
-		tagL2.add("religión");
+		tagL2.add("politics");
+		tagL2.add("religion");
 		
 		double tagList,re;
 		int changeDate;
@@ -77,18 +77,17 @@ public class DBDumieService {
 			
 			discussionDto = new DiscussionDto();
 			
-			discussionDto.SetTitle("Tittle " + i);
-			discussionDto.SetText("Discussion " + i + " text.");
-			discussionDto.SetTags( tags );
-			discussionDto.SetOwner( user.GetEmail() );
-			discussionDto.SetOwnerId( user.GetId() );
+			discussionDto.setTitle("Tittle " + i);
+			discussionDto.setText("Discussion " + i + " text.");
+			discussionDto.setTags( tags );
+			discussionDto.setOwner( user.getEmail() );
+			discussionDto.setOwnerId( user.getUserId() );
 			discussionM.Save( discussionDto );
 		
 			numReplies = (int) ( Math.random() * 30);
 			for( int r = 0; r<numReplies; r++){
 
-				totalVotes = (int) ( Math.random() * 10);
-				votes = (int) ( Math.random() * 30) * ( ( Math.random() > 0.5) ? 1 : -1);
+				votes = 0; //(int) ( Math.random() * 30);
 				
 				re = Math.random();
 				if ( re < 0.3){
@@ -102,13 +101,12 @@ public class DBDumieService {
 				changeDate = (int) (Math.random() * 3);
 				
 				replyDto = new ReplyDto();
-				replyDto.SetDiscussionKey( discussionDto.GetId() );
-				replyDto.SetReplyType( replyType );
-				replyDto.SetText("Reply text " + r);
-				replyDto.SetTotalVotes( totalVotes );
-				replyDto.SetVotes( votes );
-				replyDto.SetOwner( user.GetEmail() );
-				replyDto.SetOwnerId( user.GetId() );
+				replyDto.setDiscussionKey( discussionDto.getDiscussionId() );
+				replyDto.setReplyType( replyType );
+				replyDto.setText("Reply text " + r);
+				replyDto.setVotes( votes );
+				replyDto.setOwner( user.getEmail() );
+				replyDto.setOwnerId( user.getUserId() );
 				
 				replyDate = new Date();
 				Calendar cal = Calendar.getInstance();
@@ -124,22 +122,22 @@ public class DBDumieService {
 				if( hasComments > 0.4 ){
 					numComments = (int) (Math.random() * 10);
 
-					Long idReply = replyDto.GetId();
+					Long replyKey = replyDto.getReplyId();
 					
 					for( int c = 0; c < numComments; c++){
 						commentDto = new CommentDto();
-						commentDto.SetText("Comment" + c + " text");
-						commentDto.SetReplyId( idReply );
+						commentDto.setText("Comment" + c + " text");
+						commentDto.setReplyKey( replyKey );
 						commentM.Save( commentDto );
 					}
-					replyDto = replyM.Get( idReply );
-					replyDto.SetNumComments( numComments );
+					replyDto = replyM.Get( replyKey );
+					replyDto.setNumComments( numComments );
 					replyM.Save( replyDto );
 				}
 				
 			}
 			
-			discussionDto.SetNumReplies( numReplies );
+			discussionDto.setNumReplies( numReplies );
 			discussionM.Save( discussionDto );
 			
 		}

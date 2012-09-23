@@ -40,7 +40,6 @@ iris.UI(
 		
 		function _Show( p_pos, p_autoDismiss ){
 			_Pos = p_pos;
-			
 			if( p_autoDismiss == true ){
 				setInterval(
 					function(){
@@ -56,8 +55,6 @@ iris.UI(
 		}
 		
 		function _Relocate( p_pos ){
-			iris.D("RELOCATE" , p_pos, _Pos);
-			
 			if ( _Pos >= p_pos ){
 				_Pos --;
 				var pos = _Pos * 40;

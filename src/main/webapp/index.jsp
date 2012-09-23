@@ -22,10 +22,10 @@ String logout = (String) request.getAttribute("logout");
 	
 	<script>
 		var USER = {
-			 EMAIL : '<%=(user!=null)?user.GetEmail():null%>'
-			,NICK : '<%=(user!=null)?user.GetNick():null%>'
-			,SHOW_HIDDEN_REPLIES : <%=(user!=null)?user.GetShowHiddenReplies():null%>
-			,USE_NICK : <%=(user!=null)?user.GetUseNick():null%>
+			 EMAIL : '<%=(user!=null)?user.getEmail():null%>'
+			,NICK : '<%=(user!=null)?user.getNick():null%>'
+			,SHOW_HIDDEN_REPLIES : <%=(user!=null)?user.getShowHiddenReplies():null%>
+			,USE_NICK : <%=(user!=null)?user.getUseNick():null%>
 			,LOGOUT : '<%=logout%>'
 		}
 	</script>

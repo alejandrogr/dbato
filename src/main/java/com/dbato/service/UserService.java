@@ -27,9 +27,9 @@ public class UserService {
 		UserManager userM = new UserManager();
 		UserDto user = userM.Get((Long)p_request.getAttribute("userId"));
 		
-		user.SetNick( p_nick );
-		user.SetShowHiddenReplies( p_showHiddenReplies );
-		user.SetUseNick( p_useNick );
+		user.setNick( p_nick );
+		user.setShowHiddenReplies( p_showHiddenReplies );
+		user.setUseNick( p_useNick );
 		userM.Save( user );
 		
 		return Response.ok().entity(response.toJson(user)).build();

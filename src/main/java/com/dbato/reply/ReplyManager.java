@@ -1,11 +1,13 @@
 package com.dbato.reply;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.dbato.comments.CommentDto;
-import com.dbato.comments.CommentManager;
 import com.dbato.commons.ReplyVO;
+import com.dbato.commons.VoteVO;
+import com.dbato.discussion.DiscussionDto;
+import com.dbato.discussion.DiscussionManager;
+import com.dbato.exception.DbatoException;
 import com.dbato.exception.NeedUserException;
 import com.igzcode.java.util.collection.NameValueArray;
 
@@ -16,69 +18,56 @@ public class ReplyManager extends ReplyFactory {
 	}
 
 	public void Save(ReplyDto p_reply) throws NeedUserException {
-		if( p_reply.GetOwner() != null && p_reply.GetOwnerId() != null ){
+		if( p_reply.getOwner() != null && p_reply.getOwnerId() != null ){
 			_Save( p_reply );
 		} else {
 			throw new NeedUserException("Reply must have a valid owner");
 		}
 	}
 
-	public List<ReplyVO> FindByDiscussion(Long p_discussionId) {
-
+	public List<ReplyDto> FindByDiscussion(Long p_discussionId) {
 		NameValueArray filters = new NameValueArray();
 		filters.Add("discussionKey =", p_discussionId);
-		List<ReplyDto> replies = _FindByProperties(filters, "-votes");
-
-		ReplyDto reply;
-		List<CommentDto> comments;
-		List<ReplyVO> repliesVo = new ArrayList<ReplyVO>();
-		ReplyVO replyVo;
-		CommentManager commentM = new CommentManager();
-		for (int i = 0; i < replies.size(); i++) {
-
-			reply = replies.get(i);
-			comments = new ArrayList<CommentDto>();
-			replyVo = new ReplyVO();
-
-			if (reply.GetNumComments() > 0) {
-				comments = commentM.FindByReply(reply.GetId());
-			}
-			replyVo.SetReply(reply);
-			replyVo.SetComments(comments);
-			repliesVo.add(replyVo);
-		}
-
-		return repliesVo;
+		return _FindByProperties(filters, "-votes");
 	}
 
-	public ReplyVO GetById(Long p_replyId) {
-		ReplyDto reply = _Get( p_replyId );
-		List<CommentDto> comments;
-		List<ReplyVO> repliesVo = new ArrayList<ReplyVO>();
-		ReplyVO replyVo;
-		CommentManager commentM = new CommentManager();
+	public ReplyDto GetById(Long p_replyId) {
+		return _Get( p_replyId );
+	}
 
-		comments = new ArrayList<CommentDto>();
-		replyVo = new ReplyVO();
-
-		if (reply.GetNumComments() > 0) {
-			comments = commentM.FindByReply(reply.GetId());
-		}
-		replyVo.SetReply(reply);
-		replyVo.SetComments(comments);
-		repliesVo.add(replyVo);
+	public void Vote(Long p_replyKey, Long p_userKey) throws DbatoException, NeedUserException {
+		ReplyDto reply = this.Get(p_replyKey);
 		
-		return replyVo;
+		//users can vote only one time on each reply
+		if( !reply.getVotesUser().contains( p_userKey)){
+			//VoteManager voteM = new VoteManager();
+			DiscussionManager discusionM = new DiscussionManager();
+			
+			reply.setVotes(reply.getVotes() + 1);
+			
+			VoteVO vote = new VoteVO();
+			vote.setReplyKey( p_replyKey );
+			vote.setUserKey( p_userKey );
+			vote.setReplyType( reply.getReplyType() );
+			//voteM.Save(vote);
+
+			reply.addVoteUser( vote );
+			this.Save(reply);
+			
+			DiscussionDto discussion = discusionM.Get( reply.getDiscussionKey() );
+			discussion.addVoteUser(vote);
+			discusionM.Save(discussion);
+		} else {
+			throw new DbatoException("User already vote this reply");
+		}
 	}
 
-	public Integer Vote(Integer p_vote, Long p_replyId) throws NeedUserException {
-		System.out.println("VOTE REPLY ID" + p_replyId);
-		ReplyDto reply = Get(p_replyId);
-
-		reply.SetVotes(reply.GetVotes() + p_vote);
-		reply.SetTotalVotes(reply.GetTotalVotes() + 1);
-		Save(reply);
-
-		return reply.GetVotes();
+	public ReplyVO getReplyVO(ReplyDto p_reply, List<CommentDto> p_comments, Long p_userId) {
+		ReplyVO replyVo = new ReplyVO();
+		replyVo.setReply(p_reply);
+		replyVo.setComments(p_comments);
+		Boolean canVote = !( p_userId == null || p_reply.getVotesUser().contains( p_userId ));
+		replyVo.setUserCanVote( canVote );
+		return replyVo;
 	}
 }

@@ -30,8 +30,8 @@ public class IndexFilter implements Filter {
 			userDto = userM.GetByEmail( user.getEmail() );
 			if( userDto == null ){
 				userDto = new UserDto();
-				userDto.SetEmail( user.getEmail() );
-				userDto.SetNick( user.getNickname() );
+				userDto.setEmail( user.getEmail() );
+				userDto.setNick( user.getNickname() );
 				try {
 					userM.Save( userDto );
 				} catch (ParamsException e) {

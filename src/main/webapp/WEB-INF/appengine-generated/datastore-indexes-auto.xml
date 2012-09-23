@@ -1,0 +1,11 @@
+<!-- Indices written at Sun, 23 Sep 2012 19:10:26 CEST -->
+
+<datastore-indexes>
+
+    <!-- Used 7 times in query history -->
+    <datastore-index kind="TagDto" ancestor="false" source="auto">
+        <property name="_SearchTokens" direction="asc"/>
+        <property name="text" direction="asc"/>
+    </datastore-index>
+
+</datastore-indexes>
