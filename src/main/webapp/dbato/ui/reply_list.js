@@ -8,10 +8,11 @@ iris.UI(
 			,_TotalReplies
 			,_CurrentReplies
 			,_RepliesToShow
-			,_JustNevagiteRepliesLeft = false
 			,_ColumnTitle
 			,_HiddenReplies
 			,_$
+			,_CanVote
+			,_Replies
 		;
 	
 		self.Settings({
@@ -26,6 +27,8 @@ iris.UI(
 			_$Replies = self.$Get("replies");
 			
 			_$ = self.$Get();
+			
+			_CanVote = false;
 			
 			_SetSelectColumnText();
 			_InflateEvents();
@@ -48,8 +51,10 @@ iris.UI(
 		}
 		
 		function _ShowColumn( p_params ){
-			_Adjust(p_params.num_columns);
-			_$.show();
+			if( _TotalReplies > 0 ){
+				_Adjust(p_params.num_columns);
+				_$.show();
+			}
 		}
 		
 		function _SetSelectColumnText(){
@@ -76,11 +81,11 @@ iris.UI(
 		
 		function _Adjust( p_ncols ){
 			if( p_ncols == 1 ){
-				_$.removeClass("span3").removeClass("span5").addClass("span9");
+				_$.removeClass("span3").removeClass("span5").addClass("span10");
 			} else if( p_ncols == 2 ){
-				_$.removeClass("span3").removeClass("span9").addClass("span5");
+				_$.removeClass("span3").removeClass("span10").addClass("span5");
 			} else if( p_ncols == 3 ){
-				_$.removeClass("span5").removeClass("span9").addClass("span3");
+				_$.removeClass("span5").removeClass("span10").addClass("span3");
 			}
 		}
 		
@@ -89,44 +94,26 @@ iris.UI(
 			
 			_RepliesToShow = 5; 
 			_CurrentReplies = 0;
-			_JustNevagiteRepliesLeft = false;
 			
 			_$ShowMoreReplies.hide();
-			
-			var repliesToShow = [];
-			var replyDate; 
-			var today = new Date();
-			var yesterday = new Date();
-			
-			yesterday.setDate( yesterday.getDate() -1 ); 
-			var f,F = p_json.length;
-			for(f=0;f<F;f++){
-				reply = p_json[f].reply;
-				replyDate = new Date(reply.creationDate);
-				
-				if( replyDate > yesterday){
-					if( dbato.CONSTANTS.REPLY_NEW == self.Setting("replyType") ){
-						repliesToShow[repliesToShow.length] = p_json[f];
-					}
-				} else if( reply.replyType == self.Setting("replyType") ){
-					repliesToShow[repliesToShow.length] = p_json[f];
-				}
-			}
-			_TotalReplies = repliesToShow.length;
-			_InflateReplies( repliesToShow, p_canVote );
+			_CanVote = p_canVote;
+
+			self.DestroyAllUIs("replies");
+
+			_Replies = p_json;
+			_TotalReplies = p_json.length;
+			_InflateReplies( _Replies );
 		}
 		
-		function _InflateReplies( p_replies, p_canVote ){
+		function _InflateReplies( p_replies ){
 			var reply;
 			var f,F = _TotalReplies;
 			var curRep = _CurrentReplies;
 			
-			self.DestroyAllUIs("replies");
-			
 			for(f=curRep;f<F;f++){
 				reply = p_replies[f].reply;
 
-				var replyUI = self.InstanceUI( "replies", dbato.Resource("ui/reply.js"), {"canVote" : p_canVote});
+				var replyUI = self.InstanceUI( "replies", dbato.Resource("ui/reply.js"), {"canVote" : _CanVote});
 				replyUI.Inflate( p_replies[f] );
 				
 				_CurrentReplies = f + 1;
@@ -153,5 +140,7 @@ iris.UI(
 	
 		self.SetDiscussionKey = _SetDiscusionKey;
 		self.Inflate = _Inflate;
+		self.Adjust = _Adjust;
+		self.HideColumn = _HideColumn;
 	}
 );

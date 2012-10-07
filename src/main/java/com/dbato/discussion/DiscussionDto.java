@@ -34,6 +34,10 @@ public class DiscussionDto extends AbstractEntity {
 
 	private List<Long> votesUserPro;
 
+	private List<Long> repliesUserPro;
+
+	private List<Long> repliesUserAgainst;
+
 	private Date creationDate;
 	private Date updateDate;
 	private Date lastReplyDate;
@@ -52,6 +56,32 @@ public class DiscussionDto extends AbstractEntity {
 		this.numReplies = 0;
 		this.votesUserPro = new ArrayList<Long>();
 		this.votesUserAgainst = new ArrayList<Long>();
+		this.repliesUserPro = new ArrayList<Long>();
+		this.repliesUserAgainst = new ArrayList<Long>();
+	}
+
+	public void addRepliesUserPro(Long p_userKey){
+		this.repliesUserPro.add(p_userKey);
+	}
+
+	public void addRepliesUserAgainst(Long p_userKey){
+		this.repliesUserAgainst.add(p_userKey);
+	}
+
+	public List<Long> getRepliesUserPro() {
+		return this.repliesUserPro;
+	}
+
+	public void setRepliesUserPro(List<Long> p_repliesUserPro) {
+		this.repliesUserPro = p_repliesUserPro;
+	}
+
+	public List<Long> getRepliesUserAgainst() {
+		return this.repliesUserAgainst;
+	}
+
+	public void setRepliesUserAgainst(List<Long> p_repliesUserAgainst) {
+		this.repliesUserAgainst = p_repliesUserAgainst;
 	}
 
 	public List<Long> getVotesUserAgainst() {

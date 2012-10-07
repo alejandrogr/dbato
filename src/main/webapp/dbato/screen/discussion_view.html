@@ -1,4 +1,4 @@
-<div>
+<div style="display: none;">
 	<div class="well">
 		<h1 data-id="title"></h1>
 		
@@ -19,13 +19,28 @@
 			</div>
 		</div>
 	</div>
-	<div class="clearfix row">
-		<div data-id="header" class="span10">
-			<div class="btn-group">
-            	<button class="btn btn-large btn-success" data-id="select_pro" data-toggle="button"><i class="icon icon-search"></i> Pro</button>
-                <button class="btn btn-large btn-warning" data-id="select_against" data-toggle="button"><i class="icon icon-search"></i> Against</button>
-                <button class="btn btn-large btn-info" data-id="select_new" data-toggle="button"><i class="icon icon-search"></i>New</button>
-                <button class="btn btn-large" data-id="unselect_all"><i class="icon icon-search"></i> All</button>
+	<div class="clearfix row" data-id="no_replies" style="display: none;">
+		<div class="span10">
+			<div class="alert">
+				<div data-id="msg">
+					<p>This discussion doesn't have replies yet.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="clearfix row" data-id="replies">
+		<div data-id="header" class="span10"> 
+			<div class="btn-group pull-left">
+            	<button class="btn btn-success" data-id="select_pro" data-toggle="button"> Pro</button>
+                <button class="btn btn-warning" data-id="select_against" data-toggle="button"> Against</button>
+                <button class="btn btn-info" data-id="select_new" data-toggle="button">New</button>
+                <button class="btn" data-id="unselect_all"> All</button>
+            </div>
+            <div class="pull-right" data-id="already_voted" style="display: none;">
+            	 <button class="btn" data-id="already_voted_btn">You have voted</button>
+            </div>
+            <div class="pull-right" data-id="already_replyed" style="display: none;">
+            	 <button class="btn btn-danger">You have replyed</button>
             </div>
 		</div>
 		<div data-id="replies_pro"></div>

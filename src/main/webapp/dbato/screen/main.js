@@ -10,6 +10,7 @@ iris.Screen(
 			self.AddScreen( "screens", "#discussion-create", dbato.Resource("screen/discussion_create.js") );
 			self.AddScreen( "screens", "#discussion-list", dbato.Resource("screen/discussion_list.js") );
 			self.AddScreen( "screens", "#discussion-view", dbato.Resource("screen/discussion_view.js") );
+			self.AddScreen( "screens", "#discussion-mines", dbato.Resource("screen/my_discussions.js") );
 			self.AddScreen( "screens", "#profile", dbato.Resource("screen/profile.js") );
 						
 			dbato.alert = self.InstanceUI("alert", dbato.Resource("ui/alert.js") );

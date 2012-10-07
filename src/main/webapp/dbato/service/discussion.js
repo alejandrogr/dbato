@@ -22,6 +22,17 @@ dbato.service.Discussion = new function () {
 		);
 	};
 	
+	this.GetMines = function (f_success, f_error ) {
+		dbato.service.Get(
+			"discussion/mines"
+			, {}
+			,function ( p_json ) {
+				f_success( p_json  );
+			}
+			, f_error
+		);
+	};
+	
 	this.Create = function ( p_title, p_desc, p_tags, f_success, f_error ) {
 		var ta = "";
 		for( var j = 0; j < p_tags.length ; j ++ ){
