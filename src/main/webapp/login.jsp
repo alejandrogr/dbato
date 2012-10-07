@@ -8,7 +8,7 @@
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 	
 	<script>
-		document.location.href="index.jsp";
+		document.location.href="/";
 	</script>
 	
 </head>

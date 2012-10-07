@@ -84,7 +84,7 @@ iris.UI(
 			}
 		}
 		
-		function _Inflate( p_json ){
+		function _Inflate( p_json, p_canVote ){
 			self.$Get().addClass( self.Setting("replyType"));
 			
 			_RepliesToShow = 5; 
@@ -97,6 +97,7 @@ iris.UI(
 			var replyDate; 
 			var today = new Date();
 			var yesterday = new Date();
+			
 			yesterday.setDate( yesterday.getDate() -1 ); 
 			var f,F = p_json.length;
 			for(f=0;f<F;f++){
@@ -111,20 +112,21 @@ iris.UI(
 					repliesToShow[repliesToShow.length] = p_json[f];
 				}
 			}
-			iris.D(repliesToShow);
 			_TotalReplies = repliesToShow.length;
-			_InflateReplies( repliesToShow );
+			_InflateReplies( repliesToShow, p_canVote );
 		}
 		
-		function _InflateReplies( p_replies ){
+		function _InflateReplies( p_replies, p_canVote ){
 			var reply;
 			var f,F = _TotalReplies;
 			var curRep = _CurrentReplies;
 			
+			self.DestroyAllUIs("replies");
+			
 			for(f=curRep;f<F;f++){
 				reply = p_replies[f].reply;
 
-				var replyUI = self.InstanceUI( "replies", dbato.Resource("ui/reply.js"));
+				var replyUI = self.InstanceUI( "replies", dbato.Resource("ui/reply.js"), {"canVote" : p_canVote});
 				replyUI.Inflate( p_replies[f] );
 				
 				_CurrentReplies = f + 1;

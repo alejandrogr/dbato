@@ -7,141 +7,140 @@ import java.util.List;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
 
-import com.dbato.commons.VoteVO;
 import com.dbato.commons.Constant.ReplyType;
 import com.igzcode.java.gae.pattern.AbstractEntity;
 
 
 public class ReplyDto extends AbstractEntity {
-	
+
 	@Id
 	private Long replyId;
-	
+
 	private Long discussionKey;
-	
+
 	private String text;
-	
+
 	private ReplyType replyType;
 
 	private String owner;
-	
+
 	private Long ownerId;
-	
+
 	private Integer votes;
-	
-	private List<VoteVO> votesUser;
-	
+
+	private List<Long> votesUserKeys; //array with users who already vote this reply
+
 	private Integer numComments;
-	
+
 	private Date creationDate;
 	private Date updateDate;
-	
+
 	@PrePersist
 	private void _SetCreatedAndUpdated () {
-		if ( replyId == null && creationDate == null ) {
-			creationDate = new Date();
+		if ( this.replyId == null && this.creationDate == null ) {
+			this.creationDate = new Date();
 		}
-		updateDate = new Date();
+		this.updateDate = new Date();
 	}
-	
+
 	public ReplyDto() {
 		super();
 
-		votesUser = new ArrayList<VoteVO>();
-		votes = 0;
-		numComments = 0;
+		this.votesUserKeys = new ArrayList<Long>();
+		this.votes = 0;
+		this.numComments = 0;
 	}
-	
+
+	public List<Long> getVotesUserKeys() {
+		return this.votesUserKeys;
+	}
+
+	public void setVotesUserKeys(List<Long> p_votesUserKeys) {
+		this.votesUserKeys = p_votesUserKeys;
+	}
+
 	public Date getCreationDate(){
-		return creationDate;
+		return this.creationDate;
 	}
-	
+
 	public void setCreationDate( Date p_creationDate ){
 		this.creationDate = p_creationDate;
 	}
 
 	public Long getReplyId() {
-		return replyId;
+		return this.replyId;
 	}
 
 	public void setReplyId(Long p_replyId) {
-		replyId = p_replyId;
+		this.replyId = p_replyId;
 	}
 
 	public Long getDiscussionKey() {
-		return discussionKey;
+		return this.discussionKey;
 	}
 
 	public void setDiscussionKey(Long p_discussionKey) {
-		discussionKey = p_discussionKey;
+		this.discussionKey = p_discussionKey;
 	}
 
 	public String getText() {
-		return text;
+		return this.text;
 	}
 
 	public void setText(String p_text) {
-		text = p_text;
+		this.text = p_text;
 	}
 
 	public ReplyType getReplyType() {
-		return replyType;
+		return this.replyType;
 	}
 
 	public void setReplyType(ReplyType p_replyType) {
-		replyType = p_replyType;
+		this.replyType = p_replyType;
 	}
 
 	public String getOwner() {
-		return owner;
+		return this.owner;
 	}
 
 	public void setOwner(String p_owner) {
-		owner = p_owner;
+		this.owner = p_owner;
 	}
 
 	public Long getOwnerId() {
-		return ownerId;
+		return this.ownerId;
 	}
 
 	public void setOwnerId(Long p_ownerId) {
-		ownerId = p_ownerId;
+		this.ownerId = p_ownerId;
 	}
 
 	public Integer getVotes() {
-		return votes;
+		return this.votes;
 	}
 
 	public void setVotes(Integer p_votes) {
-		votes = p_votes;
-	}
-
-	public List<VoteVO> getVotesUser() {
-		return votesUser;
-	}
-
-	public void setVotesUser(List<VoteVO> p_votesUser) {
-		votesUser = p_votesUser;
+		this.votes = p_votes;
 	}
 
 	public Integer getNumComments() {
-		return numComments;
+		return this.numComments;
 	}
 
 	public void setNumComments(Integer p_numComments) {
-		numComments = p_numComments;
+		this.numComments = p_numComments;
 	}
 
 	public Date getUpdateDate() {
-		return updateDate;
+		return this.updateDate;
 	}
 
 	public void setUpdateDate(Date p_updateDate) {
-		updateDate = p_updateDate;
+		this.updateDate = p_updateDate;
 	}
 
-	public void addVoteUser(VoteVO p_vote) {
-		votesUser.add(p_vote);
+	public void addVoteUser( Long p_userKey ) {
+		this.votesUserKeys.add(p_userKey);
 	}
 
 

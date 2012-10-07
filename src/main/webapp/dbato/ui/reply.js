@@ -14,12 +14,18 @@ iris.UI(
 			,_$CommentContainer
 			//VARS
 			,_ReplyId
+			,_ReplyType
+			,_DiscusionKey
 			,_Comments
 			,_CommentsShown = false
 			//UIs
 			,_CommentUI = null
 			,_LoginUI = null
 		;
+		
+		self.Settings({
+			"canVote" : false
+		});
 		
 		self.Create = function() {
 			iris.Include( dbato.Resource("service/reply.js"));
@@ -45,26 +51,42 @@ iris.UI(
 			var userCanVote = p_reply.userCanVote;
 			
 			_ReplyId = reply.replyId;
+			_ReplyType = reply.replyType;
+			_DiscusionKey = reply.discussionKey;
 			_$Text.html( reply.text );
 			_$NumComments.html( comments.length );
 			
 			if ( !userCanVote ){
-				_$VoteUp.unbind();
-				_$VoteUp.addClass("disabled");
-				_$VoteUp.attr("title", "already voted");
+				_DisableVote();
 			}
 		}
 		
+		function _DisableVote(){
+			_$VoteUp.unbind();
+			_$VoteUp.addClass("disabled");
+			_$VoteUp.attr("title", "can't vote");
+		}
+		
 		function _InflateEvents(){
-			_$VoteUp.on("click", _VoteUp );
+			if( self.Setting("canVote") !== true ){
+				_DisableVote();
+			} else {
+				_$VoteUp.on("click", _VoteUp );
+			}
 			_$Comment.on("click", _ShowCommentBox );
+			iris.event.Subscribe( dbato.EVENTS.VOTE_REPLY, _CheckAnotherReplyVoted );
+		}
+		
+		function _CheckAnotherReplyVoted( p_params ){
+			if( p_params.discusionKey == _DiscusionKey  && p_params.replyType != _ReplyType){
+				_DisableVote();
+			}
 		}
 		
 		function _VoteUp(){
-			_$VoteUp.unbind();
-			_$VoteUp.addClass("disabled");
-			_$VoteUp.attr("title", "already voted");
-			dbato.service.Reply.Vote( 1, _ReplyId, function(){} );		
+			_DisableVote();
+			dbato.service.Reply.Vote( 1, _ReplyId, function(){} );
+			iris.event.Notify( dbato.EVENTS.VOTE_REPLY, {"discusionKey" : _DiscusionKey, "replyType" : _ReplyType} );
 		}
 		
 		function _ShowCommentBox(){

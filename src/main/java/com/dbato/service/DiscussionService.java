@@ -40,35 +40,36 @@ public class DiscussionService {
 
 		return Response.ok().entity(response.toJson(discussionL)).build();
 	}
-	
+
 	@GET
 	@Path("/search/{queryString}")
 	@Produces("application/json;charset=UTF-8")
 	public Response FindDiscussions(
 			@PathParam("queryString") String p_queryString ) throws Exception {
 		Gson response = new Gson();
-		
+
 		DiscussionManager discussionM = new DiscussionManager();
 		List<DiscussionDto> discussionL = discussionM.Find( p_queryString );
-		
+
 		return Response.ok().entity(response.toJson(discussionL)).build();
 	}
-			
+
 
 	@GET
 	@Path("/{discussionId}")
 	@Produces("application/json;charset=UTF-8")
 	public Response GetDiscussion(
-			  @PathParam("discussionId") Long p_discussionId
+			@PathParam("discussionId") Long p_discussionId
 			, @Context HttpServletRequest p_request ) throws Exception {
 		Gson response = new Gson();
 
+		Long userKey = (Long) p_request.getAttribute("userId");
 		DiscussionManager discussionM = new DiscussionManager();
 		DiscussionDto discussion = discussionM.Get(p_discussionId);
-		
+
 		ReplyManager replyM = new ReplyManager();
 		List<ReplyDto> replyL = replyM.FindByDiscussion(discussion.getDiscussionId());
-		
+
 		ReplyDto reply;
 		List<CommentDto> comments;
 		List<ReplyVO> repliesVo = new ArrayList<ReplyVO>();
@@ -80,28 +81,38 @@ public class DiscussionService {
 			if (reply.getNumComments() > 0) {
 				comments = commentM.FindByReply(reply.getReplyId());
 			}
-			replyVo = replyM.getReplyVO( reply, comments, (Long) p_request.getAttribute("userId") );
+			replyVo = replyM.getReplyVO( reply, comments, userKey );
 			repliesVo.add(replyVo);
 		}
-		
+
 		DiscussionVO discusionVO = new DiscussionVO();
 		discusionVO.SetDiscussion( discussion );
 		discusionVO.SetReplies( repliesVo );
-		
+		if( discussion.getVotesUserPro().contains(userKey)) {
+			discusionVO.setUserCanVotePro(true);
+			discusionVO.setUserCanVoteAgainst(false);
+		} else if( discussion.getVotesUserAgainst().contains(userKey)) {
+			discusionVO.setUserCanVoteAgainst(true);
+			discusionVO.setUserCanVotePro(false);
+		} else {
+			discusionVO.setUserCanVoteAgainst(true);
+			discusionVO.setUserCanVotePro(true);
+		}
+
 		return Response.ok().entity(response.toJson(discusionVO)).build();
 	}
 
 	@POST
 	@Produces("application/json;charset=UTF-8")
 	public Response Create(
-			  @FormParam("t") String p_title
+			@FormParam("t") String p_title
 			, @FormParam("c") String p_text
 			, @FormParam("ta") List<String> p_tags
 			, @Context HttpServletRequest p_request) throws Exception {
 
 		Gson response = new Gson();
 		DiscussionManager discussionM = new DiscussionManager();
-				
+
 		TagManager tagM = new TagManager();
 		for (int i = 0; i < p_tags.size(); i++) {
 			tagM.AddUpdateTag(p_tags.get(i));
@@ -125,16 +136,16 @@ public class DiscussionService {
 	@Path("/reply")
 	@Produces("application/json;charset=UTF-8")
 	public Response CreateReply(
-			  @FormParam("t") String p_text
+			@FormParam("t") String p_text
 			, @FormParam("dk") Long p_discussionKey
 			, @FormParam("rt") ReplyType p_replyType
 			, @Context HttpServletRequest p_request) throws Exception {
-		
+
 		Gson response = new Gson();
 		ReplyManager replyM = new ReplyManager();
 		DiscussionManager discussionM = new DiscussionManager();
 		DiscussionDto discussion = new DiscussionDto();
-		
+
 		discussion = discussionM.Get( p_discussionKey );
 		discussion.setNumReplies( discussion.getNumReplies() + 1 );
 		discussion.setLastReplyDate( new Date() );
@@ -151,7 +162,7 @@ public class DiscussionService {
 		long replyId = reply.getReplyId();
 
 		URI location = new URI("/reply/" + replyId);
-		
+
 		return Response.created(location).entity(response.toJson(reply)).build();
 	}
 

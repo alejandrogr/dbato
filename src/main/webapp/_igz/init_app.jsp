@@ -18,21 +18,63 @@
 	import="com.igzcode.java.gae.util.ConfigUtil"%>
 <%
 	DiscussionManager discussionM = new DiscussionManager();
-	UserManager userM = new UserManager();
 	TagManager tagM = new TagManager();
 	ReplyManager replyM = new ReplyManager();
 	CommentManager commentM = new CommentManager();
+	UserManager userM = new UserManager();
 
+	discussionM.DeleteAll();
+	tagM.DeleteAll();
+	replyM.DeleteAll();
+	commentM.DeleteAll();
+	userM.DeleteAll();
+	
+	
 	UserDto user = new UserDto();
 
 	user.setEmail("alejandrogr@gmail.com");
 	user.setNick("Ale");
 	userM.Save(user);
-
+	
+	user = new UserDto();
+	user.setEmail("lee.adama@dbato.com");
+	user.setNick("Lee Adama");
+	userM.Save(user);
+	
+	user = new UserDto();
+	user.setEmail("kara.thrace@dbato.com");
+	user.setNick("Starbuck");
+	userM.Save(user);
+	
+	user = new UserDto();
+	user.setEmail("boomer@dbato.com");
+	user.setNick("Boomer");
+	userM.Save(user);
+	
+	user = new UserDto();
+	user.setEmail("saul.tigh@dbato.com");
+	user.setNick("Colonel Tigh");
+	userM.Save(user);
+	
+	user = new UserDto();
+	user.setEmail("gaius.baltar@dbato.com");
+	user.setNick("Gaius Baltar");
+	userM.Save(user);
+	
+	user = new UserDto();
+	user.setEmail("number.six@dbato.com");
+	user.setNick("Six");
+	userM.Save(user);
+	
+	user = new UserDto();
+	user.setEmail("laura.roslin@dbato.com");
+	user.setNick("Laura Roslin");
+	userM.Save(user);
+	
 	DiscussionDto discussionDto;
 	ReplyDto replyDto;
 	CommentDto commentDto;
-
+	
 	int numDiscussions = 30;
 	int numReplies, votes, numComments;
 	ReplyType replyType = ReplyType.AGAINST;
@@ -76,14 +118,12 @@
 		numReplies = (int) (Math.random() * 30);
 		for (int r = 0; r < numReplies; r++) {
 
-			votes = 0; //(int) ( Math.random() * 30);
+			votes = 0; //(int) ( Math.random() * 3 );
 
 			re = Math.random();
-			if (re < 0.3) {
+			if (re < 0.5) {
 				replyType = ReplyType.PRO;
-			} else if (re >= 0.3 && re <= 0.6) {
-				replyType = ReplyType.NEUTRAL;
-			} else if (re > 0.6) {
+			} else if (re >= 0.5) {
 				replyType = ReplyType.AGAINST;
 			}
 
@@ -123,12 +163,10 @@
 				replyDto.setNumComments(numComments);
 				replyM.Save(replyDto);
 			}
-
-		} 
+		}
 
 		discussionDto.setNumReplies(numReplies);
 		discussionM.Save(discussionDto);
-
 	}
 	
 %><!DOCTYPE HTML>

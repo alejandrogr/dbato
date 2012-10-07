@@ -50,6 +50,7 @@ iris.Screen(
 				, dbato.Resource("ui/reply_list.js")
 				, {"replyType":dbato.CONSTANTS.REPLY_AGAINST}
 			);
+			
 			_RepliesNew =  self.InstanceUI(
 				  "replies_new"
 				, dbato.Resource("ui/reply_list.js")
@@ -71,7 +72,6 @@ iris.Screen(
 			_NumColumns = 3;
 			
 			_InflateEvents();
-			
 		};
 		
 		
@@ -96,11 +96,13 @@ iris.Screen(
 			_$Meta.html( "By " + p_json.discussion.owner + " on " + p_json.discussion.updateDate);
 			
 			_Replies = p_json.replies;
-
-			_RepliesPro.Inflate( _Replies );
-			_RepliesAgainst.Inflate( _Replies );
-			_RepliesNew.Inflate( _Replies );
 			
+			var canVotePro = p_json.userCanVotePro;
+			var canVoteAgainst = p_json.userCanVoteAgainst;
+
+			_RepliesPro.Inflate( _Replies, canVotePro );
+			_RepliesAgainst.Inflate( _Replies, canVoteAgainst );
+			_RepliesNew.Inflate( _Replies, false );
 		}
 		
 		function _InflateEvents(){
@@ -117,21 +119,33 @@ iris.Screen(
 		}
 		
 		function _SelectColumn( p_btn, p_type ){
+			
 			if ( p_btn.data("selected") === false ){
 				_NumColumns ++;
 				iris.event.Notify( dbato.EVENTS.REPLY_COLUMN_SELECTED, {"type": p_type, "num_columns" : _NumColumns} );
 				p_btn.data("selected", true);
-				iris.D("SELECTED", p_type);
 			} else {
+				if( _NumColumns == 1 ){
+					p_btn.addClass("active");
+					return; //do not hide the last column
+				}
 				_NumColumns --;
 				iris.event.Notify( dbato.EVENTS.REPLY_COLUMN_UNSELECTED, {"type": p_type, "num_columns" : _NumColumns} );
 				p_btn.data("selected", false);
-				iris.D("UNSELECTED", p_type);
 			}
 		}
 
 		function _UnselectAll(){
 			_NumColumns = 3;
+			
+			_$SelectPro.removeClass("active");
+			_$SelectNew.removeClass("active");
+			_$SelectAgainst.removeClass("active");
+			
+			_$SelectPro.data("selected", true);
+			_$SelectNew.data("selected", true);
+			_$SelectAgainst.data("selected", true);
+
 			iris.event.Notify( dbato.EVENTS.REPLY_COLUMN_SHOW, {"num_columns" : _NumColumns} );
 		}
 		
