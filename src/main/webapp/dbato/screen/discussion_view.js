@@ -15,6 +15,7 @@ iris.Screen(
 			,_$SelectNew
 			,_$SelectAgainst
 			,_$UnSelectAll
+			,_$VoteAdvices
 			,_NumColumns
 		;
 		
@@ -28,6 +29,8 @@ iris.Screen(
 			_$SelectNew = self.$Get("select_new");
 			_$SelectAgainst = self.$Get("select_against");
 			_$UnSelectAll = self.$Get("unselect_all");
+			
+			_$VoteAdvices = self.$Get("vote_advices");
 			
 			_$SelectPro.data("selected", true);
 			_$SelectNew.data("selected", true);
@@ -99,6 +102,12 @@ iris.Screen(
 			
 			var canVotePro = p_json.userCanVotePro;
 			var canVoteAgainst = p_json.userCanVoteAgainst;
+			
+			if( canVoteAgainst && canVotePro ){
+				_$VoteAdvices.show();
+			} else {
+				_$VoteAdvices.hide();
+			}
 
 			_RepliesPro.Inflate( _Replies, canVotePro );
 			_RepliesAgainst.Inflate( _Replies, canVoteAgainst );
@@ -116,6 +125,12 @@ iris.Screen(
 				_SelectColumn($(this), dbato.CONSTANTS.REPLY_AGAINST);
 			});
 			_$UnSelectAll.on("click", _UnselectAll);
+			
+			iris.event.Subscribe( dbato.EVENTS.VOTE_REPLY, _ReplyVoted );
+		}
+		
+		function _ReplyVoted(){
+			_$VoteAdvices.hide();
 		}
 		
 		function _SelectColumn( p_btn, p_type ){
