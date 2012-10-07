@@ -20,7 +20,7 @@ iris.UI(
 		
 		function _Show( p_msg, p_autoDismiss, p_type ){
 			var msg = self.InstanceUI("cont", dbato.Resource("ui/alert_item.js"), {"onDismiss" : _AlertDismissed});
-
+			
 			var type = "";
 			if( p_type != "undefined"){
 				type = p_type;
