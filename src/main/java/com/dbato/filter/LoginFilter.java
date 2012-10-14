@@ -24,39 +24,39 @@ public class LoginFilter implements Filter {
 	public void doFilter(ServletRequest p_request, ServletResponse p_response, FilterChain filterChain) throws IOException, ServletException {
 
 		UserService userService = UserServiceFactory.getUserService();
-		
+
 		User user = userService.getCurrentUser();
 		HttpServletRequest request = (HttpServletRequest) p_request;
 		HttpServletResponse response = (HttpServletResponse) p_response;
-		
-        p_response.setContentType("application/json");
-        if (user != null || request.getMethod() == "GET" ) {
-        	if( user != null ){
-        		
-        		UserManager userM = new UserManager();
-        		UserDto userDto = userM.GetByEmail( user.getEmail() );
-        		if( userDto != null ){
-        			p_request.setAttribute("userId", userDto.getUserId());
-        			String userDesc = userDto.getEmail();
-        			if ( userDto.getUseNick().equals( true )){
-        				userDesc = userDto.getNick();
-        			} 
-            		p_request.setAttribute("userDesc", userDesc);
-        			
-        		} else {
-            		p_request.setAttribute("userDesc", user.getEmail());
-        		}
-        	}
-        	
-        	filterChain.doFilter(p_request, p_response);
-        } else {
-        	response.setStatus( HttpServletResponse.SC_FORBIDDEN );
-        	response.getWriter().println("{\"KO\":\"NEED LOGIN\"}");
-        }
+
+		p_response.setContentType("application/json");
+		if (user != null || request.getMethod() == "GET" ) {
+			if( user != null ){
+
+				UserManager userM = new UserManager();
+				UserDto userDto = userM.GetByEmail( user.getEmail() );
+				if( userDto != null ){
+					request.getSession().setAttribute("userId", userDto.getUserId());
+					String userDesc = userDto.getEmail();
+					if ( userDto.getUseNick().equals( true )){
+						userDesc = userDto.getNick();
+					}
+					request.getSession().setAttribute("userDesc", userDesc);
+
+				} else {
+					request.getSession().setAttribute("userDesc", user.getEmail());
+				}
+			}
+
+			filterChain.doFilter(request, response);
+		} else {
+			response.setStatus( HttpServletResponse.SC_FORBIDDEN );
+			response.getWriter().println("{\"KO\":\"NEED LOGIN\"}");
+		}
 	}
 
 	public FilterConfig getFilterConfig() {
-		return filterConfig;
+		return this.filterConfig;
 	}
 
 	public void init(FilterConfig filterConfig) {

@@ -15,6 +15,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 
+import com.dbato.channels.ChannelManager;
 import com.dbato.comments.CommentDto;
 import com.dbato.comments.CommentManager;
 import com.dbato.commons.ReplyVO;
@@ -29,52 +30,54 @@ public class ReplyService {
 	@Path("/vote")
 	@Produces("application/json;charset=UTF-8")
 	public Response Vote(
-		  @FormParam("v") Integer p_vote
-	    , @FormParam("ri") Long p_replyId
-		, @Context HttpServletRequest p_request	) throws Exception {
+			@FormParam("v") Integer p_vote
+			, @FormParam("ri") Long p_replyId
+			, @Context HttpServletRequest p_request	) throws Exception {
 		Gson response = new Gson();
-		
+
 		ReplyManager replyM = new ReplyManager();
 		replyM.Vote( p_replyId, (Long)p_request.getAttribute("userId") );
-		
+
 		ReplyDto reply = replyM.Get( p_replyId );
-		
+
+		ChannelManager.sendMessageToAllClients("hello channel world!");
+
 		return Response.ok().entity(response.toJson( reply )).build();
 	}
-	
+
 	@GET
 	@Path("/{replyId}")
 	@Produces("application/json;charset=UTF-8")
 	public Response GetDiscussion(
 			@PathParam("replyId") Long p_replyId
-		  , @Context HttpServletRequest p_request ) throws Exception {
+			, @Context HttpServletRequest p_request ) throws Exception {
 		Gson response = new Gson();
 
 		ReplyManager replyM = new ReplyManager();
 		CommentManager commentM = new CommentManager();
-		ReplyDto reply = replyM.GetById(p_replyId); 
+		ReplyDto reply = replyM.GetById(p_replyId);
 		List<CommentDto> comments = new ArrayList<CommentDto>();
 
 		if (reply.getNumComments() > 0) {
 			comments = commentM.FindByReply(reply.getReplyId());
 		}
-		
+
 		ReplyVO replyVo = replyM.getReplyVO( reply, comments, (Long)p_request.getAttribute("userId"));
 		return Response.ok().entity(response.toJson(replyVo)).build();
 	}
-	
+
 	@POST
 	@Path("/comment")
 	@Produces("application/json;charset=UTF-8")
 	public Response CreateReply(
-			  @FormParam("t") String p_text
+			@FormParam("t") String p_text
 			, @FormParam("rk") Long p_replyKey
 			, @Context HttpServletRequest p_request) throws Exception {
-		
+
 		Gson response = new Gson();
 		CommentManager commentM = new CommentManager();
 		ReplyManager replyM = new ReplyManager();
-		
+
 		ReplyDto reply = new ReplyDto();
 		reply = replyM.Get( p_replyKey );
 		reply.setNumComments( reply.getNumComments() + 1 );
@@ -88,7 +91,7 @@ public class ReplyService {
 		long commentId = comment.getCommentId();
 
 		URI location = new URI("/comment/" + commentId);
-		
+
 		return Response.created(location).entity(response.toJson(comment)).build();
 	}
 

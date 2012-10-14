@@ -102,7 +102,48 @@ var dbato = new function () {
 			_Call("DELETE", p_service, p_params, f_success, f_error);
 		};
 	};
+	
+	this.channel = new function(){
+		
+		function _GetChannelToken(){
+			$.ajax({
+				url : "/_ah/channel/token"
+				,success : function( p_json ){
+					_InitChannel( p_json.token );
+				}
+			});
+		}
+		
+		function _Init(){
+			_GetChannelToken();
+		}
+		
+		var onOpened = function(p_json) {
+			console.log("onOpened", p_json);
+		};
+		
+		var onMessage = function( p_json ) {
+			console.log("onMessage ", p_json);
+		};
+		
+		function _InitChannel( p_token ){
+			var channel = new goog.appengine.Channel( p_token );
+			var handler = {
+				 'onopen' : onOpened
+				,'onmessage' : onMessage
+				,'onerror' : function() {}
+				,'onclose' : function() {}
+			};
+			var socket = channel.open(handler);
+			socket.onopen = onOpened;
+			socket.onmessage = onMessage;
+		}
+		
+		this.Init = _Init
+	}
 };
+
+
 
 
 $(document).ready(
@@ -114,6 +155,8 @@ $(document).ready(
 		} else {
 			dbato.USER = null;
 		}
+		
+		dbato.channel.Init();
 		
 		iris.screen.WelcomeScreen(dbato.Resource("screen/main.js"));
 	}

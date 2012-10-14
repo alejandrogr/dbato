@@ -15,7 +15,7 @@ iris.Screen(
 		};
 		
 		function _GetMyDiscussions(){
-			dbato.service.Discussion.GetMines(
+			dbato.service.Discussion.GetMy(
 				function( p_json ){
 					if( p_json.length > 0 ){
 						_DiscussionList.Inflate( p_json );

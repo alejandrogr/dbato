@@ -22,9 +22,9 @@ dbato.service.Discussion = new function () {
 		);
 	};
 	
-	this.GetMines = function (f_success, f_error ) {
+	this.GetMy = function (f_success, f_error ) {
 		dbato.service.Get(
-			"discussion/mines"
+			"discussion/my"
 			, {}
 			,function ( p_json ) {
 				f_success( p_json  );

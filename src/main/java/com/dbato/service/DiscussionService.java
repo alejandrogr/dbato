@@ -52,11 +52,11 @@ public class DiscussionService {
 	}
 
 	@GET
-	@Path("/mines")
+	@Path("/my")
 	@Produces("application/json;charset=UTF-8")
 	public Response GetMines( @Context HttpServletRequest p_request ) throws Exception {
 		Gson response = new Gson();
-		Long userId = (Long) p_request.getAttribute("userId");
+		Long userId = (Long) p_request.getSession().getAttribute("userId");
 
 		logger.info(userId+" < userId");
 
@@ -75,7 +75,7 @@ public class DiscussionService {
 			, @Context HttpServletRequest p_request ) throws Exception {
 		Gson response = new Gson();
 
-		Long userId = (Long) p_request.getAttribute("userId");
+		Long userId = (Long) p_request.getSession().getAttribute("userId");
 
 		DbatoManager dbatoM = new DbatoManager();
 		DiscussionVO discussion = dbatoM.getDiscussionVO(p_discussionId, userId);
@@ -93,8 +93,8 @@ public class DiscussionService {
 
 		Gson response = new Gson();
 
-		String userDesc = (String) p_request.getAttribute("userDesc");
-		Long userId = (Long) p_request.getAttribute("userId");
+		String userDesc = (String) p_request.getSession().getAttribute("userDesc");
+		Long userId = (Long) p_request.getSession().getAttribute("userId");
 
 		DbatoManager dbatoM = new DbatoManager();
 		DiscussionDto discussion = dbatoM.createDiscussion(p_tags, p_title, p_text, userDesc, userId);
@@ -115,8 +115,8 @@ public class DiscussionService {
 		Gson response = new Gson();
 
 
-		String userDesc = (String) p_request.getAttribute("userDesc");
-		Long userId = (Long) p_request.getAttribute("userId");
+		String userDesc = (String) p_request.getSession().getAttribute("userDesc");
+		Long userId = (Long) p_request.getSession().getAttribute("userId");
 
 		DbatoManager dbatoM = new DbatoManager();
 		ReplyDto reply = dbatoM.replyToDiscussion(p_discussionKey, p_text, p_replyType, userDesc, userId);
