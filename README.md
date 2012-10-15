@@ -23,7 +23,7 @@ To post in Dbato you need to be logged in with a Google account. However you can
     mvn gae:unpack //just if you dont have the SDK instaled in your local M2_REPO
     mvn gae:run
 
-Then navigate to http://localhost:8080/_igz/init_app.jsp to fill the datastore with test some data. 
+Then navigate to http://localhost:8080/_dev/test_data.jsp to fill the datastore with test some data. 
 Nagiate to http://localhost:8080  
 Welcome to Dbato.  
   

@@ -172,7 +172,7 @@
 %><!DOCTYPE HTML>
 <html>
 <head>
-	<title>Dbato - init app</title>
+	<title>Dbato - example data</title>
 
 	<meta http-equiv='X-UA-Compatible' content='IE=8'/>
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8">

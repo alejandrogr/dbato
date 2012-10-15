@@ -1,6 +1,6 @@
 iris.config.Load({
 	 "environment-default" : "pro" //default environment
-	,"environments-nocache" : "dev" //define the cache por each environment
+	,"environments-nocache" : "dev" //define the cache by each environment
 	,"environment" : { //define some environments with their identifier URI
 		 "localhost" : "dev"
 		,"www.dbato.com" : "pro"
@@ -9,22 +9,16 @@ iris.config.Load({
 		 "dev" : "debug,warning,error"
 		,"pro" : "error"
 	}
-	,"global" : { //define some global data, content in this node is not mandatory
-		"locales" : {
-			  "es" : "es-ES"
-		}
-		,"default-locale" : "es-ES"
-		,"appPath" : "dbato" //directory of your application. 
-	}
 });
+
 
 iris.lang.Load("es-ES", {
-	 "APP_NAME": "App Name"
-	,"ERROR_UNKNOW" : "Ocurrió un error inesperado"
-	,"EXEC_SERVICE" : "Ejecutar Servicio"
-	,"NEXT_SCREEN" : "Siguiente Pantalla"
+	 "ERROR_UNKNOW" : "Upps, ocurrió un error inesperado"
 });
 
+iris.lang.Load("en-US", {
+	 "ERROR_UNKNOW" : "Oops, an unknown error occurred while loading data"
+});
 
 
 var dbato = new function () {
@@ -37,7 +31,7 @@ var dbato = new function () {
 	
 	
 	this.Resource = function( p_resource ){
-		return iris.global.Data("appPath") + "/" + p_resource;
+		return "dbato/" + p_resource;
 	};
 	
 	this.EVENTS = {
@@ -60,7 +54,7 @@ var dbato = new function () {
 			}
 		}
 		function _Call (p_method, p_service, p_params, f_success, f_error){
-			iris.D("[_Call]", p_service);
+			iris.D("[dbato-service]", p_service);
 			
 			iris.net.Ajax(
 				{ "url" : "/s/" + p_service

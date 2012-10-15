@@ -1,32 +1,30 @@
 <div>
 	<h1>Create a new Discussion</h1>
-	<form class="form-horizontal">
-		<fieldset>
-			<div class="control-group">
-				<label class="control-label" for="title">Title</label>
-				<div class="controls">
-					<input class="input-xlarge textarea" id="title" type="text" data-id="title">
+		<form class="form-horizontal" style='margin-top:30px;'>
+			<fieldset>
+				<div class="control-group">
+					<label class="control-label" for="title">Title</label>
+					<div class="controls">
+						<input class="input-xlarge textarea" name="Title" type="text" data-id="title" data-constraints='@NotBlank(label="Title")'>
+					</div>
 				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label" for="desc">Description</label>
-				<div class="controls">
-					<textarea class="input-xlarge" id="desc" data-id="desc" rows="3" style="width: 530px; height: 200px"></textarea>
+				<div class="control-group">
+					<label class="control-label" for="desc">Description</label>
+					<div class="controls">
+						<textarea class="input-xlarge" data-id="desc" rows="3" style="width: 530px; height: 200px" data-constraints='@NotBlank(label="Description")'></textarea>
+					</div>
 				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label" for="desc"></label>
-				<div class="controls">
-					<div data-id="tag_selector"></div>
+				<div class="control-group">
+					<label class="control-label" for="desc"></label>
+					<div class="controls">
+						<div data-id="tag_selector"></div>
+					</div>
 				</div>
-			</div>
 			
-			<div class="form-actions">
-				<button data-id="create" class="btn btn-primary">Create</button>
-				<button class="btn">Reiniciar</button>
-			</div>
-		</fieldset>
-	</form>
-
-
+				<div class="form-actions">
+					<button data-id="create" class="btn btn-primary">Create</button>
+					<button data-id="clean" class="btn">Reset</button>
+				</div>
+			</fieldset>
+		</form>
 </div>

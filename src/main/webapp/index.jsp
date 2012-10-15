@@ -32,9 +32,9 @@ String logout = (String) request.getAttribute("logout");
 	</script>
 	
 	<script type="text/javascript" src="/_ah/channel/jsapi"></script>
-	<script type='text/javascript' src='./js/jquery-1.7.1.min.js'></script>
+	<script type='text/javascript' src='./js/jquery-1.8.2.min.js'></script>
 	<script type='text/javascript' src='./js/wysihtml5-0.3.0_rc2.js'></script>
-	<script type='text/javascript' src='./js/iris-0.4.2.js'></script>
+	<script type='text/javascript' src='./js/iris-0.4.4.min.js'></script>
 	<script type='text/javascript' src='./js/bootstrap.js'></script>
 	<script type='text/javascript' src='./js/bootstrap-wysihtml5.js'></script>
 	
