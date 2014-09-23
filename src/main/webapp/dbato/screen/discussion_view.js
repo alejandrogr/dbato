@@ -89,7 +89,7 @@ iris.Screen(
 			}
 			
 			_$Title = self.$Get("title");
-			_$Text = self.$Get("text");
+			_$Text = self.$Get("d-text");
 			_NumColumns = 3;
 			
 			_InflateEvents();
